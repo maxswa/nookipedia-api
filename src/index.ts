@@ -244,6 +244,32 @@ export class NookipediaApi {
   }
 
   /**
+   * All New Horizons events
+   * @description Get a list of all ongoing or upcoming events in *Animal Crossing: New Horizons*.
+   */
+  getAllEvents(options?: OmitOptions<'/nh/events'>) {
+    return this.request({
+      path: '/nh/events',
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons event names
+   * @description Get a list of all ongoing or upcoming events in *Animal Crossing: New Horizons*.
+   */
+  getAllEventNames(options?: OmitOptions<'/nh/events'>) {
+    return this.request({
+      path: '/nh/events',
+      ...options,
+      query: {
+        ...options?.query,
+        excludedetails: 'true'
+      }
+    });
+  }
+
+  /**
    * All New Horizons fish
    * @description Get a list of all fish and their details in *Animal Crossing: New Horizons*.
    */

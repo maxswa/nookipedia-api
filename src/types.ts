@@ -7,7 +7,7 @@ export interface paths {
   '/villagers': {
     /**
      * Villagers
-     * @description This endpoint retrieves villager information from the entire Animal Crossing series, with the option to filter by species, personality, game, and/or birthday. Filters use the AND operator (e.g. asking for villagers who have species `frog` and personality `smug` will return all smug frogs). Note that villagers only include the animals that act as residents. Special characters, such as Tom Nook and Isabelle, are not accessed through this endpoint.
+     * @description This endpoint retrieves villager information from the entire *Animal Crossing* series, with the option to filter by species, personality, game, and/or birthday. Filters use the AND operator (e.g. asking for villagers who have species `frog` and personality `smug` will return all smug frogs). Note that villagers only include the animals that act as residents. Special characters, such as Tom Nook and Isabelle, are not accessed through this endpoint.
      */
     get: {
       parameters: {
@@ -61,7 +61,7 @@ export interface paths {
             | 'peppy'
             | 'snooty'
             | 'sisterly';
-          /** @description Retrieve villagers that appear in all listed games. If you want only villagers that appear in both *New Horizons* and *Pocket Camp*, you would send in `?game=nh&game=pc`. */
+          /** @description Retrieve villagers that appear in all listed games. For example, if you want only villagers that appear in both *New Horizons* and *Pocket Camp*, you would send in `?game=nh&game=pc`. */
           game?: (
             | 'DNM'
             | 'AC'
@@ -79,11 +79,11 @@ export interface paths {
           birthmonth?: string;
           /** @description Use with `birthmonth` to get villager(s) born on a specific day. Value should be an int, 1 through 31. */
           birthday?: string;
-          /** @description When set to `true`, an `nh_details` object will be included that contains New Horizons details about the villager. If the villager does not appear in *New Horizons*, the returned `nh_details` field will be set to null. */
+          /** @description When set to `true`, an `nh_details` object will be included that contains *New Horizons* details about the villager. If the villager does not appear in *New Horizons*, the returned `nh_details` field will be set to null. */
           nhdetails?: string;
           /** @description When set to `true`, only villager names are returned. Instead of an array of objects with all details, the return will be an array of strings. */
           excludedetails?: string;
-          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. When asking for a large list of villagers, this parameter is generally not recommended as the generation of each custom-sized thumbnail requires an additional network call to generate, which can result in a very long response time. */
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. Note that requesting specific image sizes for long lists may result in a very long response time. */
           thumbsize?: number;
         };
         header: {
@@ -124,7 +124,7 @@ export interface paths {
   '/nh/fish': {
     /**
      * All New Horizons fish
-     * @description Get a list of all fish and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+     * @description Get a list of all fish and their details in *New Horizons*.
      */
     get: {
       parameters: {
@@ -133,7 +133,7 @@ export interface paths {
           month?: string;
           /** @description When set to `true`, only fish names are returned. Instead of an array of objects with all details, the return will be an array of strings. This is particularly useful when used with the `month` filter, for users who want just a list of fish in a given month but not all their respective details. */
           excludedetails?: string;
-          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. This parameter is generally not recommended unless you absolutely need it, as each returned thumbnail link with a custom size requires an additional network call, which can result in a long response time if calling this endpoint in between cache refreshes. */
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. Note that requesting specific image sizes for long lists may result in a very long response time. */
           thumbsize?: number;
         };
         header: {
@@ -218,7 +218,7 @@ export interface paths {
   '/nh/bugs': {
     /**
      * All New Horizons bugs
-     * @description Get a list of all bugs and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+     * @description Get a list of all bugs and their details in *Animal Crossing: New Horizons*.
      */
     get: {
       parameters: {
@@ -227,7 +227,7 @@ export interface paths {
           month?: string;
           /** @description When set to `true`, only bug names are returned. Instead of an array of objects with all details, the return will be an array of strings. This is particularly useful when used with the `month` filter, for users who want just a list of bugs in a given month but not all their respective details. */
           excludedetails?: string;
-          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. This parameter is generally not recommended unless you absolutely need it, as each returned thumbnail link with a custom size requires an additional network call, which can result in a long response time if calling this endpoint in between cache refreshes. */
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. Note that requesting specific image sizes for long lists may result in a very long response time. */
           thumbsize?: number;
         };
         header: {
@@ -312,7 +312,7 @@ export interface paths {
   '/nh/sea': {
     /**
      * All New Horizons sea creatures
-     * @description Get a list of all sea creatures and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+     * @description Get a list of all sea creatures and their details in *Animal Crossing: New Horizons*.
      */
     get: {
       parameters: {
@@ -321,7 +321,7 @@ export interface paths {
           month?: string;
           /** @description When set to `true`, only sea creature names are returned. Instead of an array of objects with all details, the return will be an array of strings. This is particularly useful when used with the `month` filter, for users who want just a list of sea creatures in a given month but not all their respective details. */
           excludedetails?: string;
-          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. This parameter is generally not recommended unless you absolutely need it, as each returned thumbnail link with a custom size requires an additional network call, which can result in a long response time if calling this endpoint in between cache refreshes. */
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. Note that requesting specific image sizes for long lists may result in a very long response time. */
           thumbsize?: number;
         };
         header: {
@@ -406,7 +406,7 @@ export interface paths {
   '/nh/art': {
     /**
      * All New Horizons artwork
-     * @description Get a list of all artwork and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+     * @description Get a list of all artwork and their details in *Animal Crossing: New Horizons*.
      */
     get: {
       parameters: {
@@ -415,7 +415,7 @@ export interface paths {
           hasfake?: string;
           /** @description When set to `true`, only artwork names are returned. Instead of an array of objects with all details, the return will be an array of strings. */
           excludedetails?: string;
-          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. This parameter is generally not recommended unless you absolutely need it, as each returned thumbnail link with a custom size requires an additional network call, which can result in a long response time if calling this endpoint in between cache refreshes. */
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. Note that requesting specific image sizes for long lists may result in a very long response time. */
           thumbsize?: number;
         };
         header: {
@@ -455,7 +455,7 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. This parameter is generally not recommended unless you absolutely need it, as each returned thumbnail link with a custom size requires an additional network call, which can result in a long response time if calling this endpoint in between cache refreshes. */
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. */
           thumbsize?: number;
         };
         header: {
@@ -474,6 +474,140 @@ export interface paths {
         200: {
           content: {
             'application/json': components['schemas']['NHArtwork'];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/recipes': {
+    /**
+     * All New Horizons recipes
+     * @description Get a list of all recipes and their details in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify a material to only get recipes that use that material. You can specify `material` up to six times (no recipe uses more than six materials). */
+          material?: string;
+          /** @description When set to `true`, only recipe names are returned. Instead of an array of objects with all details, the return will be an array of strings. */
+          excludedetails?: string;
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. Note that requesting specific image sizes for long lists may result in a very long response time. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of recipes. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHRecipe'][];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/recipes/{item}': {
+    /**
+     * Single New Horizons recipe
+     * @description Retrieve information about a specific recipe in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+        path: {
+          /** @description The name of the item you wish to retrieve recipe information about. */
+          item: string;
+        };
+      };
+      responses: {
+        /** @description A JSON object describing the recipe. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHRecipe'];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/events': {
+    /**
+     * All New Horizons events
+     * @description Get a list of all ongoing or upcoming events in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify a year of the event. */
+          year?: string;
+          /** @description Specify a month of the event. */
+          month?: string;
+          /** @description Specify a day of the event. */
+          day?: string;
+          /** @description When set to `true`, only recipe names are returned. Instead of an array of objects with all details, the return will be an array of strings. */
+          excludedetails?: string;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of recipes. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHEvent'][];
           };
         };
         /** @description Failed to authenticate user from `X-API-KEY`. */
@@ -549,90 +683,6 @@ export interface components {
        */
       details?: string;
     };
-    NHArtwork: {
-      /**
-       * @description Name of the artwork
-       * @example Academic Painting
-       */
-      name?: string;
-      /**
-       * @description The url to the artwork
-       * @example https://nookipedia.com/wiki/Academic_Painting
-       */
-      url?: string;
-      /**
-       * @description The image URL for the real artwork
-       * @example https://dodo.ac/np/images/e/e8/Academic_Painting_NH_Icon.png
-       */
-      image_url?: string;
-      /**
-       * @description Whether the artwork has a fake or not
-       * @example true
-       */
-      has_fake?: boolean;
-      /**
-       * @description The image url for the fake artwork, if it exists
-       * @example https://dodo.ac/np/images/1/13/Academic_Painting_%28Forgery%29_NH_Icon.png
-       */
-      fake_image_url?: string;
-      /**
-       * @description The name of the real-life analog to the artwork
-       * @example Vitruvian Man
-       */
-      art_name?: string;
-      /**
-       * @description The author of the real-life analog to the artwork
-       * @example Leonardo da Vinci
-       */
-      author?: string;
-      /**
-       * @description The year that the real-life analog was made
-       * @example circa 1487
-       */
-      year?: string;
-      /**
-       * @description The art style of the artwork
-       * @example Pen and ink on paper
-       */
-      art_style?: string;
-      /**
-       * @description The description of the artwork
-       * @example This drawing is based on the &quot;ideal&quot; human-body ratio, as stated in &quot;De architectura.&quot; &quot;De architectura&quot; was a treatise by Vitruvius, an architect from the early 1st century BCE.
-       */
-      description?: string;
-      /**
-       * @description The buy price of the artwork
-       * @example 4980
-       */
-      buy_price?: number;
-      /**
-       * @description The sell price of the artwork
-       * @example 1245
-       */
-      sell_price?: number;
-      /**
-       * @description The availability of the artwork
-       * @example Jolly Redd's Treasure Trawler
-       */
-      availability?: string;
-      /**
-       * @description The description of the difference between real and fake, if there is one
-       * @example If there is a coffee stain in the top right corner, it is fake. If there is no stain, it is genuine. The forgery has a key taped to the back of the canvas.
-       */
-      authenticity?: string;
-      /**
-       * Format: float
-       * @description The width of the artwork
-       * @example 1
-       */
-      width?: number;
-      /**
-       * Format: float
-       * @description The length of the artwork
-       * @example 1
-       */
-      length?: number;
-    };
     Villager: {
       /**
        * @description Link to the respective Nookipedia article.
@@ -645,7 +695,22 @@ export interface components {
        */
       name?: string;
       /**
-       * @description The game's internal identifier for the villager. Not all villagers have IDs; villagers who appeared in any game including or after Wild World have a consistent ID between games.
+       * @description A previous name for the villager. A very small number of villagers changed names between earlier games, such as Sally being known as Hazel in the original game.
+       * @example
+       */
+      alt_name?: string;
+      /**
+       * @description The HTML color code of the background of the villager's name badge that appears above their dialogue box when spoken to in-game. Note that to date, only *New Horizons* villagers have this field populated. This field may be useful for styling, such as the accent color for a Discord embed.
+       * @example bfbfbf
+       */
+      title_color?: string;
+      /**
+       * @description The HTML color code of the text of the villager's name badge that appears above their dialogue box when spoken to in-game. Note that to date, only *New Horizons* villagers have this field populated.
+       * @example 5e5e5e
+       */
+      text_color?: string;
+      /**
+       * @description The game's internal identifier for the villager. Not all villagers have IDs; villagers who appeared in any game including or after *Wild World* have a consistent ID between games.
        * @example flg01
        */
       id?: string;
@@ -710,7 +775,7 @@ export interface components {
         | 'Smug'
         | 'Snooty';
       /**
-       * @description Gender of the villager. In Animal Crossing, only male and female are used.
+       * @description Gender of the villager. In *Animal Crossing*, only male and female are used.
        * @example Male
        * @enum {string}
        */
@@ -739,34 +804,34 @@ export interface components {
         | 'Aquarius'
         | 'Pisces';
       /**
-       * @description The villager's quote as it appears on the back of their in-game portrait item. This will be the quote from the latest game (i.e. if the villager had varying quotes between Wild World and New Horizons, this will be the New Horizons quote). For villagers from older games that do not have a quote, this field will be an empty string.
+       * @description The villager's quote as it appears on the back of their in-game portrait item. This will be the quote from the latest game (i.e. if the villager had varying quotes between *Wild World* and *New Horizons*, this will be the *New Horizons* quote). For villagers from older games that do not have a quote, this field will be an empty string.
        * @example Never rest, never rust.
        */
       quote?: string;
       /**
-       * @description The villager's default phrase they use throughout conversation. This will be the phrase from the latest game (i.e. if the villager had varying phrases between Wild World and New Horizons, this will be the New Horizons quote).
+       * @description The villager's default phrase they use throughout conversation. This will be the phrase from the latest game (i.e. if the villager had varying phrases between *Wild World* and *New Horizons*, this will be the *New Horizons* quote).
        * @example zzrrbbit
        */
       phrase?: string;
       /**
-       * @description Any phrases used in previous Animal Crossing installations. May be empty.
+       * @description Any phrases used in previous *Animal Crossing* installations. May be empty.
        * @example [
        *   "toady"
        * ]
        */
       prev_phrases?: string[];
       /**
-       * @description The villager's default clothing. This will be the clothing from the latest game (i.e. if the villager had varying phrases between Wild World and New Horizons, this will be the New Horizons clothing).
+       * @description The villager's default clothing. This will be the clothing from the latest game (i.e. if the villager had varying phrases between *Wild World* and *New Horizons*, this will be the *New Horizons* clothing).
        * @example Simple Parka
        */
       clothing?: string;
       /**
-       * @description Whether the villager was an island in Animal Crossing for GameCube. Only a small number of villagers (36) were islanders.
+       * @description Whether the villager was an island in *Animal Crossing* for GameCube. Only a small number of villagers (36) were islanders.
        * @example false
        */
       islander?: boolean;
       /**
-       * @description The first Animal Crossing game the villager appeared in. `DNM` is Doubutsu no Mori for the Nintendo 64 (Japan-exclusive); `AC` is Animal Crossing for GameCube; `E_PLUS` is Doubutsu no Mori e+ for GameCube (expanded port of AC, Japan-exclusive); `WW` is Wild World for the DS; `CF` is City Folk for Wii; `NL` is New Leaf for 3DS; `WA` is Welcome amiibo, the New Leaf expansion; `NH` is New Horizons for Switch; `FILM` is the Doubutsu no Mori Japan-exclusive film; `HHD` is Happy Home Designer for the Wii; and `PC` is Pocket Camp for mobile.
+       * @description The first *Animal Crossing* game the villager appeared in. `DNM` is *Doubutsu no Mori* for the Nintendo 64 (Japan-exclusive); `AC` is *Animal Crossing* for GameCube; `E_PLUS` is *Doubutsu no Mori e+* for GameCube (expanded port of AC, Japan-exclusive); `WW` is *Wild World* for the DS; `CF` is *City Folk* for Wii; `NL` is *New Leaf* for 3DS; `WA` is *Welcome amiibo*, the *New Leaf* expansion; `NH` is *New Horizons* for Switch; `FILM` is the *Doubutsu no Mori* Japan-exclusive film; `HHD` is *Happy Home Designer* for the Wii; and `PC` is *Pocket Camp* for mobile.
        * @example DNM
        * @enum {string}
        */
@@ -783,7 +848,7 @@ export interface components {
         | 'HHD'
         | 'PC';
       /**
-       * @description List of official media villager appeared in. `DNM` is Doubutsu no Mori for the Nintendo 64 (Japan-exclusive); `AC` is Animal Crossing for GameCube; `E_PLUS` is Doubutsu no Mori e+ for GameCube (expanded port of AC, Japan-exclusive); `WW` is Wild World for the DS; `CF` is City Folk for Wii; `NL` is New Leaf for 3DS; `WA` is Welcome amiibo, the New Leaf expansion; `NH` is New Horizons for Switch; `FILM` is the Doubutsu no Mori Japan-exclusive film; `HHD` is Happy Home Designer for the Wii; and `PC` is Pocket Camp for mobile.
+       * @description List of official media the villager appeared in. `DNM` is *Doubutsu no Mori* for the Nintendo 64 (Japan-exclusive); `AC` is *Animal Crossing* for GameCube; `E_PLUS` is *Doubutsu no Mori e+* for GameCube (expanded port of AC, Japan-exclusive); `WW` is *Wild World* for the DS; `CF` is *City Folk* for Wii; `NL` is *New Leaf* for 3DS; `WA` is *Welcome amiibo*, the *New Leaf* expansion; `NH` is *New Horizons* for Switch; `FILM` is the *Doubutsu no Mori* Japan-exclusive film; `HHD` is *Happy Home Designer* for the Wii; and `PC` is *Pocket Camp* for mobile.
        * @example [
        *   "DNM",
        *   "AC",
@@ -813,7 +878,7 @@ export interface components {
       /** @description An object that holds villager data specific to *New Horizons*. If the villager does not appear in *New Horizons*, this field will be set to null. */
       nh_details?: {
         /**
-         * @description Image of the villager from New Horizons.
+         * @description Image of the villager from *New Horizons*.
          * @example https://dodo.ac/np/images/9/94/Ribbot_NH.png
          */
         image_url?: string;
@@ -833,7 +898,7 @@ export interface components {
          */
         quote?: string;
         /**
-         * @description Each personality in New Horizons has two sub-personalities, currently referred to as just A and B. The effect of a sub-personality is currently unknown.
+         * @description Each personality in *New Horizons* has two sub-personalities, currently referred to as just A and B. The effect of a sub-personality is currently unknown.
          * @example B
          * @enum {string}
          */
@@ -935,6 +1000,11 @@ export interface components {
        */
       image_url?: string;
       /**
+       * @description Render of the fish. dodo.ac is Nookipedia's CDN server.
+       * @example https://dodo.ac/np/images/c/c0/Cherry_Salmon_NH.png
+       */
+      render_url?: string;
+      /**
        * @description The time(s) the fish is available. If all day, string will be `"All day"`.
        * @example 4 PM – 9 AM
        */
@@ -998,138 +1068,144 @@ export interface components {
        * ]
        */
       catchphrases?: string[];
-      /**
-       * @description An array of objects, each object holding a months string and the time the critter is availabile during the specified month(s) in the northern hemisphere. Most critters will have just one object. A small number of critters have variable time availability in which case this array will have multiple objects.
-       * @example [
-       *   {
-       *     "months": "Mar – Jun",
-       *     "time": "4 PM – 9 AM"
-       *   },
-       *   {
-       *     "months": "Sep – Nov",
-       *     "time": "All day"
-       *   }
-       * ]
-       */
-      availability_north?: {
+      /** @description When you can catch the fish in the Northern hemisphere. */
+      north?: {
+        /**
+         * @description An array of objects, each object holding a months string and the time the critter is availabile during the specified month(s) in the northern hemisphere. Most critters will have just one object. A small number of critters have variable time availability in which case this array will have multiple objects.
+         * @example [
+         *   {
+         *     "months": "Mar – Jun",
+         *     "time": "4 PM – 9 AM"
+         *   },
+         *   {
+         *     "months": "Sep – Nov",
+         *     "time": "All day"
+         *   }
+         * ]
+         */
+        availability_array?: {
+          months?: string;
+          time?: string;
+        }[];
+        /**
+         * @description An object with twelve numerical keys, each representing a month (`"1"` for January, `"2"` for February, etc.). The value is the times the critter is available during that month. If the critter is unavailable in a month, the value will be `"NA"`.
+         * @example {
+         *   "1": "NA",
+         *   "2": "NA",
+         *   "3": "4 PM – 9 AM",
+         *   "4": "4 PM – 9 AM",
+         *   "5": "4 PM – 9 AM",
+         *   "6": "4 PM – 9 AM",
+         *   "7": "NA",
+         *   "8": "NA",
+         *   "9": "All day",
+         *   "10": "All day",
+         *   "11": "All day",
+         *   "12": "NA"
+         * }
+         */
+        times_by_month?: {
+          1?: string;
+          2?: string;
+          3?: string;
+          4?: string;
+          5?: string;
+          6?: string;
+          7?: string;
+          8?: string;
+          9?: string;
+          10?: string;
+          11?: string;
+          12?: string;
+        };
+        /**
+         * @description The months the fish is available for in the Northern hemisphere. If all year, value will be `"All year"`.
+         * @example Mar – Jun; Sep – Nov
+         */
         months?: string;
-        time?: string;
-      }[];
-      /**
-       * @description An array of objects, each object holding a months string and the time the critter is availabile during the specified month(s) in the southern hemisphere. Most critters will have just one object. A small number of critters have variable time availability in which case this array will have multiple objects.
-       * @example [
-       *   {
-       *     "months": "Sep – Dec",
-       *     "time": "4 PM – 9 AM"
-       *   },
-       *   {
-       *     "months": "Mar – May",
-       *     "time": "All day"
-       *   }
-       * ]
-       */
-      availability_south?: {
+        /**
+         * @description An array of integers representing the months the fish is available in the Northern hemisphere.
+         * @example [
+         *   3,
+         *   4,
+         *   5,
+         *   6,
+         *   9,
+         *   10,
+         *   11
+         * ]
+         */
+        months_array?: number[];
+      };
+      /** @description When you can catch the fish in the Southern hemisphere. */
+      south?: {
+        /**
+         * @description An array of objects, each object holding a months string and the time the critter is availabile during the specified month(s) in the southern hemisphere. Most critters will have just one object. A small number of critters have variable time availability in which case this array will have multiple objects.
+         * @example [
+         *   {
+         *     "months": "Sep – Dec",
+         *     "time": "4 PM – 9 AM"
+         *   },
+         *   {
+         *     "months": "Mar – May",
+         *     "time": "All day"
+         *   }
+         * ]
+         */
+        availability_array?: {
+          months?: string;
+          time?: string;
+        }[];
+        /**
+         * @description An object with twelve numerical keys, each representing a month (`"1"` for January, `"2"` for February, etc.). The value is the times the critter is available during that month. If the critter is unavailable in a month, the value will be `"NA"`.
+         * @example {
+         *   "1": "NA",
+         *   "2": "NA",
+         *   "3": "4 PM – 9 AM",
+         *   "4": "4 PM – 9 AM",
+         *   "5": "4 PM – 9 AM",
+         *   "6": "4 PM – 9 AM",
+         *   "7": "NA",
+         *   "8": "NA",
+         *   "9": "All day",
+         *   "10": "All day",
+         *   "11": "All day",
+         *   "12": "NA"
+         * }
+         */
+        times_by_month?: {
+          1?: string;
+          4?: string;
+          5?: string;
+          6?: string;
+          7?: string;
+          8?: string;
+          9?: string;
+          10?: string;
+          11?: string;
+          12?: string;
+          "2'"?: string;
+          "3'"?: string;
+        };
+        /**
+         * @description The months the fish is available for in the Southern hemisphere. If all year, value will be `"All year"`.
+         * @example Mar – May; Sep – Dec
+         */
         months?: string;
-        time?: string;
-      }[];
-      /**
-       * @description An object with twelve numerical keys, each representing a month (`"1"` for January, `"2"` for February, etc.). The value is the times the critter is available during that month. If the critter is unavailable in a month, the value will be `"NA"`.
-       * @example {
-       *   "1": "NA",
-       *   "2": "NA",
-       *   "3": "4 PM – 9 AM",
-       *   "4": "4 PM – 9 AM",
-       *   "5": "4 PM – 9 AM",
-       *   "6": "4 PM – 9 AM",
-       *   "7": "NA",
-       *   "8": "NA",
-       *   "9": "All day",
-       *   "10": "All day",
-       *   "11": "All day",
-       *   "12": "NA"
-       * }
-       */
-      times_by_month_north?: {
-        1?: string;
-        2?: string;
-        3?: string;
-        4?: string;
-        5?: string;
-        6?: string;
-        7?: string;
-        8?: string;
-        9?: string;
-        10?: string;
-        11?: string;
-        12?: string;
+        /**
+         * @description An array of integers representing the months the fish is available in the Southern hemisphere.
+         * @example [
+         *   3,
+         *   4,
+         *   5,
+         *   9,
+         *   10,
+         *   11,
+         *   12
+         * ]
+         */
+        months_array?: number[];
       };
-      /**
-       * @description An object with twelve numerical keys, each representing a month (`"1"` for January, `"2"` for February, etc.). The value is the times the critter is available during that month. If the critter is unavailable in a month, the value will be `"NA"`.
-       * @example {
-       *   "1": "NA",
-       *   "2": "NA",
-       *   "3": "4 PM – 9 AM",
-       *   "4": "4 PM – 9 AM",
-       *   "5": "4 PM – 9 AM",
-       *   "6": "4 PM – 9 AM",
-       *   "7": "NA",
-       *   "8": "NA",
-       *   "9": "All day",
-       *   "10": "All day",
-       *   "11": "All day",
-       *   "12": "NA"
-       * }
-       */
-      times_by_month_south?: {
-        1?: string;
-        4?: string;
-        5?: string;
-        6?: string;
-        7?: string;
-        8?: string;
-        9?: string;
-        10?: string;
-        11?: string;
-        12?: string;
-        "2'"?: string;
-        "3'"?: string;
-      };
-      /**
-       * @description The months the fish is available for in the Northern hemisphere. If all year, value will be `"All year"`.
-       * @example Mar – Jun; Sep – Nov
-       */
-      months_north?: string;
-      /**
-       * @description The months the fish is available for in the Southern hemisphere. If all year, value will be `"All year"`.
-       * @example Mar – May; Sep – Dec
-       */
-      months_south?: string;
-      /**
-       * @description An array of integers representing the months the fish is available in the Northern hemisphere.
-       * @example [
-       *   3,
-       *   4,
-       *   5,
-       *   6,
-       *   9,
-       *   10,
-       *   11
-       * ]
-       */
-      'months_north_array:'?: number[];
-      /**
-       * @description An array of integers representing the months the fish is available in the Southern hemisphere.
-       * @example [
-       *   3,
-       *   4,
-       *   5,
-       *   9,
-       *   10,
-       *   11,
-       *   12
-       * ]
-       */
-      'months_south_array:'?: number[];
     };
     NHBug: {
       /**
@@ -1152,6 +1228,11 @@ export interface components {
        * @example https://dodo.ac/np/images/3/37/Grasshopper_NH_Icon.png
        */
       image_url?: string;
+      /**
+       * @description Render of the bug. dodo.ac is Nookipedia's CDN server.
+       * @example https://dodo.ac/np/images/1/1d/Grasshopper_NH.png
+       */
+      render_url?: string;
       /**
        * @description The time(s) the bug is available. If all day, string will be `"All day"`.
        * @example 8 AM – 5 PM
@@ -1201,122 +1282,128 @@ export interface components {
        * ]
        */
       catchphrases?: string[];
-      /**
-       * @description An array of objects, each object holding a months string and the time the critter is availabile during the specified month(s) in the northern hemisphere. Most critters will have just one object. A small number of critters have variable time availability in which case this array will have multiple objects.
-       * @example [
-       *   {
-       *     "months": "Jul – Sep",
-       *     "time": "8 AM – 5 PM"
-       *   }
-       * ]
-       */
-      availability_north?: {
+      /** @description When you can catch the bug in the Northern hemisphere. */
+      north?: {
+        /**
+         * @description An array of objects, each object holding a months string and the time the critter is availabile during the specified month(s) in the northern hemisphere. Most critters will have just one object. A small number of critters have variable time availability in which case this array will have multiple objects.
+         * @example [
+         *   {
+         *     "months": "Jul – Sep",
+         *     "time": "8 AM – 5 PM"
+         *   }
+         * ]
+         */
+        availability_array?: {
+          months?: string;
+          time?: string;
+        }[];
+        /**
+         * @description An object with twelve numerical keys, each representing a month (`"1"` for January, `"2"` for February, etc.). The value is the times the critter is available during that month. If the critter is unavailable in a month, the value will be `"NA"`.
+         * @example {
+         *   "1": "NA",
+         *   "2": "NA",
+         *   "3": "NA",
+         *   "4": "NA",
+         *   "5": "NA",
+         *   "6": "NA",
+         *   "7": "8 AM – 5 PM",
+         *   "8": "8 AM – 5 PM",
+         *   "9": "8 AM – 5 PM",
+         *   "10": "NA",
+         *   "11": "NA",
+         *   "12": "NA"
+         * }
+         */
+        times_by_month?: {
+          1?: string;
+          2?: string;
+          3?: string;
+          4?: string;
+          5?: string;
+          6?: string;
+          7?: string;
+          8?: string;
+          9?: string;
+          10?: string;
+          11?: string;
+          12?: string;
+        };
+        /**
+         * @description The months the bug is available for in the Northern hemisphere. If all year, value will be `"All year"`.
+         * @example Jul – Sep
+         */
         months?: string;
-        time?: string;
-      }[];
-      /**
-       * @description An array of objects, each object holding a months string and the time the critter is availabile during the specified month(s) in the southern hemisphere. Most critters will have just one object. A small number of critters have variable time availability in which case this array will have multiple objects.
-       * @example [
-       *   {
-       *     "months": "Jan – Mar",
-       *     "time": "8 AM – 5 PM"
-       *   }
-       * ]
-       */
-      availability_south?: {
+        /**
+         * @description An array of integers representing the months the bug is available in the Northern hemisphere.
+         * @example [
+         *   7,
+         *   8,
+         *   9
+         * ]
+         */
+        months_array?: number[];
+      };
+      /** @description When you can catch the bug in the Southern hemisphere. */
+      south?: {
+        /**
+         * @description An array of objects, each object holding a months string and the time the critter is availabile during the specified month(s) in the southern hemisphere. Most critters will have just one object. A small number of critters have variable time availability in which case this array will have multiple objects.
+         * @example [
+         *   {
+         *     "months": "Jan – Mar",
+         *     "time": "8 AM – 5 PM"
+         *   }
+         * ]
+         */
+        availability_array?: {
+          months?: string;
+          time?: string;
+        }[];
+        /**
+         * @description An object with twelve numerical keys, each representing a month (`"1"` for January, `"2"` for February, etc.). The value is the times the critter is available during that month. If the critter is unavailable in a month, the value will be `"NA"`.
+         * @example {
+         *   "1": "8 AM – 5 PM",
+         *   "2": "8 AM – 5 PM",
+         *   "3": "8 AM – 5 PM",
+         *   "4": "NA",
+         *   "5": "NA",
+         *   "6": "NA",
+         *   "7": "NA",
+         *   "8": "NA",
+         *   "9": "NA",
+         *   "10": "NA",
+         *   "11": "NA",
+         *   "12": "NA"
+         * }
+         */
+        times_by_month?: {
+          1?: string;
+          2?: string;
+          3?: string;
+          4?: string;
+          5?: string;
+          6?: string;
+          7?: string;
+          8?: string;
+          9?: string;
+          10?: string;
+          11?: string;
+          12?: string;
+        };
+        /**
+         * @description The months the bug is available for in the Southern hemisphere. If all year, value will be `"All year"`.
+         * @example Jan – Mar
+         */
         months?: string;
-        time?: string;
-      }[];
-      /**
-       * @description An object with twelve numerical keys, each representing a month (`"1"` for January, `"2"` for February, etc.). The value is the times the critter is available during that month. If the critter is unavailable in a month, the value will be `"NA"`.
-       * @example {
-       *   "1": "NA",
-       *   "2": "NA",
-       *   "3": "NA",
-       *   "4": "NA",
-       *   "5": "NA",
-       *   "6": "NA",
-       *   "7": "8 AM – 5 PM",
-       *   "8": "8 AM – 5 PM",
-       *   "9": "8 AM – 5 PM",
-       *   "10": "NA",
-       *   "11": "NA",
-       *   "12": "NA"
-       * }
-       */
-      times_by_month_north?: {
-        1?: string;
-        2?: string;
-        3?: string;
-        4?: string;
-        5?: string;
-        6?: string;
-        7?: string;
-        8?: string;
-        9?: string;
-        10?: string;
-        11?: string;
-        12?: string;
+        /**
+         * @description An array of integers representing the months the bug is available in the Southern hemisphere.
+         * @example [
+         *   1,
+         *   2,
+         *   3
+         * ]
+         */
+        months_array?: number[];
       };
-      /**
-       * @description An object with twelve numerical keys, each representing a month (`"1"` for January, `"2"` for February, etc.). The value is the times the critter is available during that month. If the critter is unavailable in a month, the value will be `"NA"`.
-       * @example {
-       *   "1": "8 AM – 5 PM",
-       *   "2": "8 AM – 5 PM",
-       *   "3": "8 AM – 5 PM",
-       *   "4": "NA",
-       *   "5": "NA",
-       *   "6": "NA",
-       *   "7": "NA",
-       *   "8": "NA",
-       *   "9": "NA",
-       *   "10": "NA",
-       *   "11": "NA",
-       *   "12": "NA"
-       * }
-       */
-      times_by_month_south?: {
-        1?: string;
-        2?: string;
-        3?: string;
-        4?: string;
-        5?: string;
-        6?: string;
-        7?: string;
-        8?: string;
-        9?: string;
-        10?: string;
-        11?: string;
-        12?: string;
-      };
-      /**
-       * @description The months the bug is available for in the Northern hemisphere. If all year, value will be `"All year"`.
-       * @example Jul – Sep
-       */
-      months_north?: string;
-      /**
-       * @description The months the bug is available for in the Southern hemisphere. If all year, value will be `"All year"`.
-       * @example Jan – Mar
-       */
-      months_south?: string;
-      /**
-       * @description An array of integers representing the months the bug is available in the Northern hemisphere.
-       * @example [
-       *   7,
-       *   8,
-       *   9
-       * ]
-       */
-      'months_north_array:'?: number[];
-      /**
-       * @description An array of integers representing the months the bug is available in the Southern hemisphere.
-       * @example [
-       *   1,
-       *   2,
-       *   3
-       * ]
-       */
-      'months_south_array:'?: number[];
     };
     NHSeaCreature: {
       /**
@@ -1339,6 +1426,11 @@ export interface components {
        * @example https://dodo.ac/np/images/5/58/Octopus_NH_Icon.png
        */
       image_url?: string;
+      /**
+       * @description Render of the bug. dodo.ac is Nookipedia's CDN server.
+       * @example https://dodo.ac/np/images/2/27/Octopus_NH.png
+       */
+      render_url?: string;
       /**
        * @description The time(s) the sea creature is available. If all day, string will be `"All day"`.
        * @example All day
@@ -1396,222 +1488,302 @@ export interface components {
        * ]
        */
       catchphrases?: string[];
-      /**
-       * @description An array of objects, each object holding a months string and the time the critter is availabile during the specified month(s) in the northern hemisphere. Most critters will have just one object. A small number of critters have variable time availability in which case this array will have multiple objects.
-       * @example [
-       *   {
-       *     "months": "All year",
-       *     "time": "All day"
-       *   }
-       * ]
-       */
-      availability_north?: {
+      /** @description When you can catch the sea creature in the Northern hemisphere. */
+      north?: {
+        /**
+         * @description An array of objects, each object holding a months string and the time the critter is availabile during the specified month(s) in the northern hemisphere. Most critters will have just one object. A small number of critters have variable time availability in which case this array will have multiple objects.
+         * @example [
+         *   {
+         *     "months": "All year",
+         *     "time": "All day"
+         *   }
+         * ]
+         */
+        availability_array?: {
+          months?: string;
+          time?: string;
+        }[];
+        /**
+         * @description An object with twelve numerical keys, each representing a month (`"1"` for January, `"2"` for February, etc.). The value is the times the critter is available during that month. If the critter is unavailable in a month, the value will be `"NA"`.
+         * @example {
+         *   "1": "All day",
+         *   "2": "All day",
+         *   "3": "All day",
+         *   "4": "All day",
+         *   "5": "All day",
+         *   "6": "All day",
+         *   "7": "All day",
+         *   "8": "All day",
+         *   "9": "All day",
+         *   "10": "All day",
+         *   "11": "All day",
+         *   "12": "All day"
+         * }
+         */
+        times_by_month?: {
+          1?: string;
+          2?: string;
+          3?: string;
+          4?: string;
+          5?: string;
+          6?: string;
+          7?: string;
+          8?: string;
+          9?: string;
+          10?: string;
+          11?: string;
+          12?: string;
+        };
+        /**
+         * @description The months the sea creature is available for in the Northern hemisphere. If all year, value will be `"All year"`.
+         * @example Jul – Sep
+         */
         months?: string;
-        time?: string;
-      }[];
-      /**
-       * @description An array of objects, each object holding a months string and the time the critter is availabile during the specified month(s) in the southern hemisphere. Most critters will have just one object. A small number of critters have variable time availability in which case this array will have multiple objects.
-       * @example [
-       *   {
-       *     "months": "All year",
-       *     "time": "All day"
-       *   }
-       * ]
-       */
-      availability_south?: {
+        /**
+         * @description An array of integers representing the months the sea creature is available in the Northern hemisphere.
+         * @example [
+         *   1,
+         *   2,
+         *   3,
+         *   4,
+         *   5,
+         *   6,
+         *   7,
+         *   8,
+         *   9,
+         *   10,
+         *   11,
+         *   12
+         * ]
+         */
+        months_array?: number[];
+      };
+      /** @description When you can catch the sea creature in the Southern hemisphere. */
+      south?: {
+        /**
+         * @description An array of objects, each object holding a months string and the time the critter is availabile during the specified month(s) in the southern hemisphere. Most critters will have just one object. A small number of critters have variable time availability in which case this array will have multiple objects.
+         * @example [
+         *   {
+         *     "months": "All year",
+         *     "time": "All day"
+         *   }
+         * ]
+         */
+        availability_array?: {
+          months?: string;
+          time?: string;
+        }[];
+        /**
+         * @description An object with twelve numerical keys, each representing a month (`"1"` for January, `"2"` for February, etc.). The value is the times the critter is available during that month. If the critter is unavailable in a month, the value will be `"NA"`.
+         * @example {
+         *   "1": "All day",
+         *   "2": "All day",
+         *   "3": "All day",
+         *   "4": "All day",
+         *   "5": "All day",
+         *   "6": "All day",
+         *   "7": "All day",
+         *   "8": "All day",
+         *   "9": "All day",
+         *   "10": "All day",
+         *   "11": "All day",
+         *   "12": "All day"
+         * }
+         */
+        times_by_month?: {
+          1?: string;
+          2?: string;
+          3?: string;
+          4?: string;
+          5?: string;
+          6?: string;
+          7?: string;
+          8?: string;
+          9?: string;
+          10?: string;
+          11?: string;
+          12?: string;
+        };
+        /**
+         * @description The months the sea creature is available for in the Southern hemisphere. If all year, value will be `"All year"`.
+         * @example Jan – Mar
+         */
         months?: string;
-        time?: string;
-      }[];
-      /**
-       * @description An object with twelve numerical keys, each representing a month (`"1"` for January, `"2"` for February, etc.). The value is the times the critter is available during that month. If the critter is unavailable in a month, the value will be `"NA"`.
-       * @example {
-       *   "1": "All day",
-       *   "2": "All day",
-       *   "3": "All day",
-       *   "4": "All day",
-       *   "5": "All day",
-       *   "6": "All day",
-       *   "7": "All day",
-       *   "8": "All day",
-       *   "9": "All day",
-       *   "10": "All day",
-       *   "11": "All day",
-       *   "12": "All day"
-       * }
-       */
-      times_by_month_north?: {
-        1?: string;
-        2?: string;
-        3?: string;
-        4?: string;
-        5?: string;
-        6?: string;
-        7?: string;
-        8?: string;
-        9?: string;
-        10?: string;
-        11?: string;
-        12?: string;
+        /**
+         * @description An array of integers representing the months the sea creature is available in the Southern hemisphere.
+         * @example [
+         *   1,
+         *   2,
+         *   3,
+         *   4,
+         *   5,
+         *   6,
+         *   7,
+         *   8,
+         *   9,
+         *   10,
+         *   11,
+         *   12
+         * ]
+         */
+        months_array?: number[];
       };
+    };
+    NHArtwork: {
       /**
-       * @description An object with twelve numerical keys, each representing a month (`"1"` for January, `"2"` for February, etc.). The value is the times the critter is available during that month. If the critter is unavailable in a month, the value will be `"NA"`.
-       * @example {
-       *   "1": "All day",
-       *   "2": "All day",
-       *   "3": "All day",
-       *   "4": "All day",
-       *   "5": "All day",
-       *   "6": "All day",
-       *   "7": "All day",
-       *   "8": "All day",
-       *   "9": "All day",
-       *   "10": "All day",
-       *   "11": "All day",
-       *   "12": "All day"
-       * }
+       * @description Name of the artwork.
+       * @example Academic Painting
        */
-      times_by_month_south?: {
-        1?: string;
-        2?: string;
-        3?: string;
-        4?: string;
-        5?: string;
-        6?: string;
-        7?: string;
-        8?: string;
-        9?: string;
-        10?: string;
-        11?: string;
-        12?: string;
-      };
+      name?: string;
       /**
-       * @description The months the sea creature is available for in the Northern hemisphere. If all year, value will be `"All year"`.
-       * @example Jul – Sep
+       * @description Link to the respective Nookipedia article.
+       * @example https://nookipedia.com/wiki/Academic_Painting
        */
-      months_north?: string;
+      url?: string;
       /**
-       * @description The months the sea creature is available for in the Southern hemisphere. If all year, value will be `"All year"`.
-       * @example Jan – Mar
+       * @description Image of the real artwork. dodo.ac is Nookipedia's CDN server.
+       * @example https://dodo.ac/np/images/e/e8/Academic_Painting_NH_Icon.png
        */
-      months_south?: string;
+      image_url?: string;
       /**
-       * @description An array of integers representing the months the sea creature is available in the Northern hemisphere.
-       * @example [
-       *   1,
-       *   2,
-       *   3,
-       *   4,
-       *   5,
-       *   6,
-       *   7,
-       *   8,
-       *   9,
-       *   10,
-       *   11,
-       *   12
-       * ]
+       * @description Whether the artwork has a fake or not.
+       * @example true
        */
-      months_north_array?: number[];
+      has_fake?: boolean;
       /**
-       * @description An array of integers representing the months the sea creature is available in the Southern hemisphere.
-       * @example [
-       *   1,
-       *   2,
-       *   3,
-       *   4,
-       *   5,
-       *   6,
-       *   7,
-       *   8,
-       *   9,
-       *   10,
-       *   11,
-       *   12
-       * ]
+       * @description Image of the fake artwork, if it exists.
+       * @example https://dodo.ac/np/images/1/13/Academic_Painting_%28Forgery%29_NH_Icon.png
        */
-      months_south_array?: number[];
+      fake_image_url?: string;
+      /**
+       * @description The name of the real-life analog to the artwork.
+       * @example Vitruvian Man
+       */
+      art_name?: string;
+      /**
+       * @description The author of the real-life analog to the artwork.
+       * @example Leonardo da Vinci
+       */
+      author?: string;
+      /**
+       * @description The year that the real-life analog was made.
+       * @example circa 1487
+       */
+      year?: string;
+      /**
+       * @description The art style of the artwork.
+       * @example Pen and ink on paper
+       */
+      art_style?: string;
+      /**
+       * @description The description of the artwork.
+       * @example This drawing is based on the &quot;ideal&quot; human-body ratio, as stated in &quot;De architectura.&quot; &quot;De architectura&quot; was a treatise by Vitruvius, an architect from the early 1st century BCE.
+       */
+      description?: string;
+      /**
+       * @description The number of Bells the artwork may be purchased for.
+       * @example 4980
+       */
+      buy?: number;
+      /**
+       * @description The number of Bells the artwork can be sold to Nook's store for, when it is genuine.
+       * @example 1245
+       */
+      sell?: number;
+      /**
+       * @description The availability of the artwork.
+       * @example Jolly Redd's Treasure Trawler
+       */
+      availability?: string;
+      /**
+       * @description The description of the difference between real and fake, if there is one
+       * @example If there is a coffee stain in the top right corner, it is fake. If there is no stain, it is genuine. The forgery has a key taped to the back of the canvas.
+       */
+      authenticity?: string;
+      /**
+       * Format: float
+       * @description The width of the artwork.
+       * @example 1
+       */
+      width?: number;
+      /**
+       * Format: float
+       * @description The length of the artwork.
+       * @example 1
+       */
+      length?: number;
     };
     NHRecipe: {
       /**
        * @description The name of the recipe.
-       * @example Acoustic Guitar
+       * @example Flimsy Axe
        */
-      en_name?: string;
+      name?: string;
       /**
-       * @description The url for the recipe.
-       * @example https://nookipedia.com/wiki/Item:Acoustic_Guitar_(New_Horizons)
+       * @description Link to the respective Nookipedia article.
+       * @example https://nookipedia.com/wiki/Item:Flimsy_Axe_(New_Horizons)
        */
       url?: string;
       /**
-       * @description The image url for the recipe.
-       * @example https://dodo.ac/np/images/0/07/Acoustic_Guitar_NH_DIY_Icon.png
+       * @description Image of the item the recipe crafts. dodo.ac is Nookipedia's CDN server.
+       * @example https://dodo.ac/np/images/a/ac/Flimsy_Axe_NH_DIY_Icon.png
        */
       image_url?: string;
       /**
-       * @description The unique ID of the recipe.
-       * @example 406
+       * @description The unique in-game ID of the recipe.
+       * @example 100
        */
       serial_id?: number;
       /**
-       * @description The primary price of the recipe
-       * @example 0
+       * @description An array of prices, for when the recipe may be purchased with Bells, Nook Miles, etc. The majority of recipes cannot be bought (in which case this array will be empty).
+       * @example [
+       *   {
+       *     "price": 280,
+       *     "currency": "Bells"
+       *   }
+       * ]
        */
-      buy1_price?: number;
+      buy?: {
+        price?: number;
+        currency?: string;
+      }[];
       /**
-       * @description The primary currency the recipe is purchased with
-       * @example
-       */
-      buy1_currency?: string;
-      /**
-       * @description The secondary price of the recipe
-       * @example 0
-       */
-      buy2_price?: number;
-      /**
-       * @description The secondary currency the recipe is purchased with
-       * @example
-       */
-      buy2_currency?: string;
-      /**
-       * @description The sell price of the recipe.
+       * @description The number of Bells the sea creature can be sold to Nook's store for.
        * @example 200
        */
       sell?: number;
       /**
-       * @description How many recipes to need to unlock this one.
+       * @description How many recipes the player has to have learned to unlock this one.
        * @example 0
        */
       recipes_to_unlock?: number;
       /**
-       * @description The source of the recipe.
-       * @example Smug Villager
-       */
-      diy_availability1?: string;
-      /**
-       * @description Any notes on the source of the recipe.
-       * @example
-       */
-      diy_availability1_note?: string;
-      /**
-       * @description A secondary source of the recipe, if it exists.
-       * @example
-       */
-      diy_availability2?: string;
-      /**
-       * @description Any notes on the secondary source of the recipe.
-       * @example
-       */
-      diy_availability2_note?: string;
-      /**
-       * @description The list of materials required to craft the recipe
+       * @description Where the recipe may be obtained from. `from` is a brief description of the source; `note`, when provided, provides additional details.
        * @example [
        *   {
-       *     "name": "Softwood",
-       *     "count": 8
+       *     "from": "Tom Nook",
+       *     "note": "Obtained through Tom Nook's DIY Workshop at the beginning of the game."
        *   },
        *   {
-       *     "name": "Iron Nugget",
-       *     "count": 3
+       *     "from": "Nook's Cranny",
+       *     "note": ""
+       *   }
+       * ]
+       */
+      availability?: {
+        from?: string;
+        note?: string;
+      }[];
+      /**
+       * @description The list of materials required to craft the item.
+       * @example [
+       *   {
+       *     "name": "Tree Branch",
+       *     "count": 5
+       *   },
+       *   {
+       *     "name": "Stone",
+       *     "count": 1
        *   }
        * ]
        */
@@ -1619,6 +1791,23 @@ export interface components {
         name?: string;
         count?: number;
       }[];
+    };
+    NHEvent: {
+      /**
+       * @description The date of the event.
+       * @example "2021-05-01T00:00:00.000Z"
+       */
+      date?: Record<string, never>;
+      /**
+       * @description The description of the event.
+       * @example May Day event begins
+       */
+      event?: string;
+      /**
+       * @description The article name of the event.
+       * @example May Day
+       */
+      event_url?: string;
     };
   };
   responses: never;

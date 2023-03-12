@@ -55,6 +55,7 @@ console.log(bugs);
     },
     ...
   ]
+*/
 ```
 
 ### Error Handling
@@ -111,4 +112,5 @@ console.log(bugs);
     },
     ...
   ]
+*/
 ```

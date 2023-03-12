@@ -4,6 +4,123 @@
  */
 
 export interface paths {
+  '/villagers': {
+    /**
+     * Villagers
+     * @description This endpoint retrieves villager information from the entire Animal Crossing series, with the option to filter by species, personality, game, and/or birthday. Filters use the AND operator (e.g. asking for villagers who have species `frog` and personality `smug` will return all smug frogs). Note that villagers only include the animals that act as residents. Special characters, such as Tom Nook and Isabelle, are not accessed through this endpoint.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Villager name. For most names you will get back an array with one object, but note that names are not a unique identifier across the series, as there are 3 names that are shared by multiple villagers (Lulu, Petunia, Carmen). For those 3 names you will get back an array with 2 objects. How you disambiguate between these villagers is up to you. */
+          name?: string;
+          /** @description Retrieve villagers of a certain species. */
+          species?:
+            | 'alligator'
+            | 'anteater'
+            | 'bear'
+            | 'bird'
+            | 'bull'
+            | 'cat'
+            | 'cub'
+            | 'chicken'
+            | 'cow'
+            | 'deer'
+            | 'dog'
+            | 'duck'
+            | 'eagle'
+            | 'elephant'
+            | 'frog'
+            | 'goat'
+            | 'gorilla'
+            | 'hamster'
+            | 'hippo'
+            | 'horse'
+            | 'koala'
+            | 'kangaroo'
+            | 'lion'
+            | 'monkey'
+            | 'mouse'
+            | 'octopus'
+            | 'ostrich'
+            | 'penguin'
+            | 'pig'
+            | 'rabbit'
+            | 'rhino'
+            | 'sheep'
+            | 'squirrel'
+            | 'tiger'
+            | 'wolf';
+          /** @description Retrieve villagers with a certain personality. For 'sisterly', note that the community often also calls it 'uchi' or 'big sister'. */
+          personality?:
+            | 'lazy'
+            | 'jock'
+            | 'cranky'
+            | 'smug'
+            | 'normal'
+            | 'peppy'
+            | 'snooty'
+            | 'sisterly';
+          /** @description Retrieve villagers that appear in all listed games. If you want only villagers that appear in both *New Horizons* and *Pocket Camp*, you would send in `?game=nh&game=pc`. */
+          game?: (
+            | 'DNM'
+            | 'AC'
+            | 'E_PLUS'
+            | 'WW'
+            | 'CF'
+            | 'NL'
+            | 'WA'
+            | 'NH'
+            | 'FILM'
+            | 'HHD'
+            | 'PC'
+          )[];
+          /** @description Retrieve villagers born in a specific month. Value may be the month's name (`jan`, `january`) or the integer representing the month (`01`, `1`). */
+          birthmonth?: string;
+          /** @description Use with `birthmonth` to get villager(s) born on a specific day. Value should be an int, 1 through 31. */
+          birthday?: string;
+          /** @description When set to `true`, an `nh_details` object will be included that contains New Horizons details about the villager. If the villager does not appear in *New Horizons*, the returned `nh_details` field will be set to null. */
+          nhdetails?: string;
+          /** @description When set to `true`, only villager names are returned. Instead of an array of objects with all details, the return will be an array of strings. */
+          excludedetails?: string;
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. When asking for a large list of villagers, this parameter is generally not recommended as the generation of each custom-sized thumbnail requires an additional network call to generate, which can result in a very long response time. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of villagers. */
+        200: {
+          content: {
+            'application/json': components['schemas']['Villager'][];
+          };
+        };
+        /** @description One of the inputs (usually query parameters) has an invalid value. */
+        400: {
+          content: {
+            'application/json': components['schemas']['Error400'];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
   '/nh/fish': {
     /**
      * All New Horizons fish
@@ -12,7 +129,7 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          /** @description Retrive only the fish that are available in a specific month. Value may be the month's name (`jan`, `january`), the integer representing the number (`01`, `1`), or `current` for the current month. When `current` is specified, the return body will be an object with two arrays inside, one called `north` and the other `south` containing the fish available in each respective hemisphere. Note that the current month is calculated based off the API server's time, so it may be slightly off for you at the beginning or end of the month. */
+          /** @description Retrive only the fish that are available in a specific month. Value may be the month's name (`jan`, `january`), the integer representing the month (`01`, `1`), or `current` for the current month. When `current` is specified, the return body will be an object with two arrays inside, one called `north` and the other `south` containing the fish available in each respective hemisphere. Note that the current month is calculated based off the API server's time, so it may be slightly off for you at the beginning or end of the month. */
           month?: string;
           /** @description When set to `true`, only fish names are returned. Instead of an array of objects with all details, the return will be an array of strings. This is particularly useful when used with the `month` filter, for users who want just a list of fish in a given month but not all their respective details. */
           excludedetails?: string;
@@ -22,12 +139,12 @@ export interface paths {
         header: {
           /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
           'X-API-KEY': string;
-          /** @description The version of the API you are calling, written as `1.0.0`. This header is required as good practice, but is not currently utilized by the API as there is only one version at the moment. */
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
           'Accept-Version': string;
         };
       };
       responses: {
-        /** @description A JSON array of fish */
+        /** @description A JSON array of fish. */
         200: {
           content: {
             'application/json': components['schemas']['NHFish'][];
@@ -51,7 +168,7 @@ export interface paths {
   '/nh/fish/{fish}': {
     /**
      * Single New Horizons fish
-     * @description Optional extended description in CommonMark or HTML.
+     * @description Retrieve information about a specific fish in *Animal Crossing: New Horizons*.
      */
     get: {
       parameters: {
@@ -62,7 +179,7 @@ export interface paths {
         header: {
           /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
           'X-API-KEY': string;
-          /** @description The version of the API you are calling, written as `1.0.0`. This header is required as good practice, but is not currently utilized by the API as there is only one version at the moment. */
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
           'Accept-Version': string;
         };
         path: {
@@ -106,7 +223,7 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          /** @description Retrive only the bug that are available in a specific month. Value may be the month's name (`jan`, `january`), the integer representing the number (`01`, `1`), or `current` for the current month. When `current` is specified, the return body will be an object with two arrays inside, one called `north` and the other `south` containing the bug available in each respective hemisphere. Note that the current month is calculated based off the API server's time, so it may be slightly off for you at the beginning or end of the month. */
+          /** @description Retrive only the bug that are available in a specific month. Value may be the month's name (`jan`, `january`), the integer representing the month (`01`, `1`), or `current` for the current month. When `current` is specified, the return body will be an object with two arrays inside, one called `north` and the other `south` containing the bug available in each respective hemisphere. Note that the current month is calculated based off the API server's time, so it may be slightly off for you at the beginning or end of the month. */
           month?: string;
           /** @description When set to `true`, only bug names are returned. Instead of an array of objects with all details, the return will be an array of strings. This is particularly useful when used with the `month` filter, for users who want just a list of bugs in a given month but not all their respective details. */
           excludedetails?: string;
@@ -116,12 +233,12 @@ export interface paths {
         header: {
           /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
           'X-API-KEY': string;
-          /** @description The version of the API you are calling, written as `1.0.0`. This header is required as good practice, but is not currently utilized by the API as there is only one version at the moment. */
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
           'Accept-Version': string;
         };
       };
       responses: {
-        /** @description A JSON array of bug */
+        /** @description A JSON array of bugs. */
         200: {
           content: {
             'application/json': components['schemas']['NHBug'][];
@@ -145,7 +262,7 @@ export interface paths {
   '/nh/bugs/{bug}': {
     /**
      * Single New Horizons bug
-     * @description Optional extended description in CommonMark or HTML.
+     * @description Retrieve information about a specific bug in *Animal Crossing: New Horizons*.
      */
     get: {
       parameters: {
@@ -156,7 +273,7 @@ export interface paths {
         header: {
           /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
           'X-API-KEY': string;
-          /** @description The version of the API you are calling, written as `1.0.0`. This header is required as good practice, but is not currently utilized by the API as there is only one version at the moment. */
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
           'Accept-Version': string;
         };
         path: {
@@ -194,13 +311,13 @@ export interface paths {
   };
   '/nh/sea': {
     /**
-     * All NH sea creatures
+     * All New Horizons sea creatures
      * @description Get a list of all sea creatures and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
      */
     get: {
       parameters: {
         query: {
-          /** @description Retrive only the sea creature that are available in a specific month. Value may be the month's name (`jan`, `january`), the integer representing the number (`01`, `1`), or `current` for the current month. When `current` is specified, the return body will be an object with two arrays inside, one called `north` and the other `south` containing the sea creature available in each respective hemisphere. Note that the current month is calculated based off the API server's time, so it may be slightly off for you at the beginning or end of the month. */
+          /** @description Retrive only the sea creature that are available in a specific month. Value may be the month's name (`jan`, `january`), the integer representing the month (`01`, `1`), or `current` for the current month. When `current` is specified, the return body will be an object with two arrays inside, one called `north` and the other `south` containing the sea creature available in each respective hemisphere. Note that the current month is calculated based off the API server's time, so it may be slightly off for you at the beginning or end of the month. */
           month?: string;
           /** @description When set to `true`, only sea creature names are returned. Instead of an array of objects with all details, the return will be an array of strings. This is particularly useful when used with the `month` filter, for users who want just a list of sea creatures in a given month but not all their respective details. */
           excludedetails?: string;
@@ -210,12 +327,12 @@ export interface paths {
         header: {
           /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
           'X-API-KEY': string;
-          /** @description The version of the API you are calling, written as `1.0.0`. This header is required as good practice, but is not currently utilized by the API as there is only one version at the moment. */
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
           'Accept-Version': string;
         };
       };
       responses: {
-        /** @description A JSON array of sea creature */
+        /** @description A JSON array of sea creatures. */
         200: {
           content: {
             'application/json': components['schemas']['NHSeaCreature'][];
@@ -238,8 +355,8 @@ export interface paths {
   };
   '/nh/sea/{sea_creature}': {
     /**
-     * Single NH sea creature
-     * @description Optional extended description in CommonMark or HTML.
+     * Single New Horizons sea creature
+     * @description Retrieve information about a specific sea creature in *Animal Crossing: New Horizons*.
      */
     get: {
       parameters: {
@@ -250,7 +367,7 @@ export interface paths {
         header: {
           /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
           'X-API-KEY': string;
-          /** @description The version of the API you are calling, written as `1.0.0`. This header is required as good practice, but is not currently utilized by the API as there is only one version at the moment. */
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
           'Accept-Version': string;
         };
         path: {
@@ -292,31 +409,8 @@ export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
-    Error401: {
-      /**
-       * @description A brief title describing the error.
-       * @example Failed to validate UUID.
-       */
-      title?: string;
-      /**
-       * @description UUID is either missing or invalid; or, unspecified server occured.
-       * @example Provided month filter currentd was not recognized as a valid month.
-       */
-      details?: string;
-    };
-    Error404: {
-      /**
-       * @description A brief title describing the error.
-       * @example No data was found for the given query.
-       */
-      title?: string;
-      /**
-       * @description UUID is either missing or invalid; or, unspecified server occured.
-       * @example MediaWiki Cargo request succeeded by nothing was returned for the parameters: {}
-       */
-      details?: string;
-    };
-    Error500: {
+    /** @description Bad request (often an invalid input). */
+    Error400: {
       /**
        * @description A brief title describing the error.
        * @example Failed to identify the provided month filter.
@@ -324,9 +418,328 @@ export interface components {
       title?: string;
       /**
        * @description A more in-depth description of the issue, including parameters and/or error text when available.
-       * @example Provided month filter currentd was not recognized as a valid month.
+       * @example Provided month filter jonuary was not recognized as a valid month.
        */
       details?: string;
+    };
+    /** @description Unauthorized. */
+    Error401: {
+      /**
+       * @description A brief title describing the error.
+       * @example Failed to validate UUID.
+       */
+      title?: string;
+      /**
+       * @description A more in-depth description of the issue, including parameters and/or error text when available.
+       * @example UUID is either missing or invalid; or, unspecified server occured.
+       */
+      details?: string;
+    };
+    /** @description Not found. */
+    Error404: {
+      /**
+       * @description A brief title describing the error.
+       * @example No data was found for the given query.
+       */
+      title?: string;
+      /**
+       * @description A more in-depth description of the issue, including parameters and/or error text when available.
+       * @example MediaWiki Cargo request succeeded by nothing was returned for the parameters: {}
+       */
+      details?: string;
+    };
+    /** @description Internal server error. */
+    Error500: {
+      /**
+       * @description A brief title describing the error.
+       * @example API experienced a fatal error.
+       */
+      title?: string;
+      /**
+       * @description A more in-depth description of the issue, including parameters and/or error text when available.
+       * @example Details unknown.
+       */
+      details?: string;
+    };
+    Villager: {
+      /**
+       * @description Link to the respective Nookipedia article.
+       * @example https://nookipedia.com/wiki/Ribbot
+       */
+      url?: string;
+      /**
+       * @description Name of the villager.
+       * @example Ribbot
+       */
+      name?: string;
+      /**
+       * @description The game's internal identifier for the villager. Not all villagers have IDs; villagers who appeared in any game including or after Wild World have a consistent ID between games.
+       * @example flg01
+       */
+      id?: string;
+      /**
+       * @description Image of the villager from the latest game the villager appeared in. dodo.ac is Nookipedia's CDN server.
+       * @example https://dodo.ac/np/images/9/94/Ribbot_NH.png
+       */
+      image_url?: string;
+      /**
+       * @description The villager's species.
+       * @example Frog
+       * @enum {string}
+       */
+      species?:
+        | 'Alligator'
+        | 'Anteater'
+        | 'Bear'
+        | 'Bird'
+        | 'Bull'
+        | 'Cat'
+        | 'Cub'
+        | 'Chicken'
+        | 'Cow'
+        | 'Deer'
+        | 'Dog'
+        | 'Duck'
+        | 'Eagle'
+        | 'Elephant'
+        | 'Frog'
+        | 'Goat'
+        | 'Gorilla'
+        | 'Hamster'
+        | 'Hippo'
+        | 'Horse'
+        | 'Koala'
+        | 'Kangaroo'
+        | 'Lion'
+        | 'Monkey'
+        | 'Mouse'
+        | 'Octopus'
+        | 'Ostrich'
+        | 'Penguin'
+        | 'Pig'
+        | 'Rabbit'
+        | 'Rhino'
+        | 'Sheep'
+        | 'Squirrel'
+        | 'Tiger'
+        | 'Wolf';
+      /**
+       * @description The villager's personality. Note that there are no official in-game personality names; these are names that are commonly used by the community. In the case of 'sisterly', other common names include 'big sis' and 'uchi'.
+       * @example Jock
+       * @enum {string}
+       */
+      personality?:
+        | 'Cranky'
+        | 'Jock'
+        | 'Lazy'
+        | 'Normal'
+        | 'Peppy'
+        | 'Sisterly'
+        | 'Smug'
+        | 'Snooty';
+      /**
+       * @description Gender of the villager. In Animal Crossing, only male and female are used.
+       * @example Male
+       * @enum {string}
+       */
+      gender?: 'Male' | 'Female';
+      /**
+       * @description Birthday of the villager in 'Month Day' form. Note that villager birthdays were not introduced until *Wild World*. For villagers who didn't appear in *Wild World* or any later games, this field will be an empty string.
+       * @example February 13
+       */
+      birthday?: string;
+      /**
+       * @description The villager's astrological star sign.
+       * @example Aquarius
+       * @enum {string}
+       */
+      sign?:
+        | 'Aries'
+        | 'Taurus'
+        | 'Gemini'
+        | 'Cancer'
+        | 'Leo'
+        | 'Virgo'
+        | 'Libra'
+        | 'Scorpio'
+        | 'Sagittarius'
+        | 'Capricorn'
+        | 'Aquarius'
+        | 'Pisces';
+      /**
+       * @description The villager's quote as it appears on the back of their in-game portrait item. This will be the quote from the latest game (i.e. if the villager had varying quotes between Wild World and New Horizons, this will be the New Horizons quote). For villagers from older games that do not have a quote, this field will be an empty string.
+       * @example Never rest, never rust.
+       */
+      quote?: string;
+      /**
+       * @description The villager's default phrase they use throughout conversation. This will be the phrase from the latest game (i.e. if the villager had varying phrases between Wild World and New Horizons, this will be the New Horizons quote).
+       * @example zzrrbbit
+       */
+      phrase?: string;
+      /**
+       * @description Any phrases used in previous Animal Crossing installations. May be empty.
+       * @example [
+       *   "toady"
+       * ]
+       */
+      prev_phrases?: string[];
+      /**
+       * @description The villager's default clothing. This will be the clothing from the latest game (i.e. if the villager had varying phrases between Wild World and New Horizons, this will be the New Horizons clothing).
+       * @example Simple Parka
+       */
+      clothing?: string;
+      /**
+       * @description Whether the villager was an island in Animal Crossing for GameCube. Only a small number of villagers (36) were islanders.
+       * @example false
+       */
+      islander?: boolean;
+      /**
+       * @description The first Animal Crossing game the villager appeared in. `DNM` is Doubutsu no Mori for the Nintendo 64 (Japan-exclusive); `AC` is Animal Crossing for GameCube; `E_PLUS` is Doubutsu no Mori e+ for GameCube (expanded port of AC, Japan-exclusive); `WW` is Wild World for the DS; `CF` is City Folk for Wii; `NL` is New Leaf for 3DS; `WA` is Welcome amiibo, the New Leaf expansion; `NH` is New Horizons for Switch; `FILM` is the Doubutsu no Mori Japan-exclusive film; `HHD` is Happy Home Designer for the Wii; and `PC` is Pocket Camp for mobile.
+       * @example DNM
+       * @enum {string}
+       */
+      debut?:
+        | 'DNM'
+        | 'AC'
+        | 'E_PLUS'
+        | 'WW'
+        | 'CF'
+        | 'NL'
+        | 'WA'
+        | 'NH'
+        | 'FILM'
+        | 'HHD'
+        | 'PC';
+      /**
+       * @description List of official media villager appeared in. `DNM` is Doubutsu no Mori for the Nintendo 64 (Japan-exclusive); `AC` is Animal Crossing for GameCube; `E_PLUS` is Doubutsu no Mori e+ for GameCube (expanded port of AC, Japan-exclusive); `WW` is Wild World for the DS; `CF` is City Folk for Wii; `NL` is New Leaf for 3DS; `WA` is Welcome amiibo, the New Leaf expansion; `NH` is New Horizons for Switch; `FILM` is the Doubutsu no Mori Japan-exclusive film; `HHD` is Happy Home Designer for the Wii; and `PC` is Pocket Camp for mobile.
+       * @example [
+       *   "DNM",
+       *   "AC",
+       *   "E_PLUS",
+       *   "WW",
+       *   "CF",
+       *   "NL",
+       *   "WA",
+       *   "NH",
+       *   "HHD",
+       *   "PC"
+       * ]
+       */
+      appearances?: (
+        | 'DNM'
+        | 'AC'
+        | 'E_PLUS'
+        | 'WW'
+        | 'CF'
+        | 'NL'
+        | 'WA'
+        | 'NH'
+        | 'FILM'
+        | 'HHD'
+        | 'PC'
+      )[];
+      /** @description An object that holds villager data specific to *New Horizons*. If the villager does not appear in *New Horizons*, this field will be set to null. */
+      nh_details?: {
+        /**
+         * @description Image of the villager from New Horizons.
+         * @example https://dodo.ac/np/images/9/94/Ribbot_NH.png
+         */
+        image_url?: string;
+        /**
+         * @description The villager's photo, received by the player after attaining a certain friendship level. See https://nookipedia.com/wiki/Category:New_Horizons_pictures for full list.
+         * @example https://dodo.ac/np/images/0/03/RibbotPicACNH.png
+         */
+        photo_url?: string;
+        /**
+         * @description The villager's icon of their head. See https://nookipedia.com/wiki/Category:New_Horizons_character_icons for full list.
+         * @example https://dodo.ac/np/images/8/87/Ribbot_NH_Villager_Icon.png
+         */
+        icon_url?: string;
+        /**
+         * @description The villager's quote, as found on the back of their in-game photo.
+         * @example Never rest, never rust.
+         */
+        quote?: string;
+        /**
+         * @description Each personality in New Horizons has two sub-personalities, currently referred to as just A and B. The effect of a sub-personality is currently unknown.
+         * @example B
+         * @enum {string}
+         */
+        'sub-personality'?: 'A' | 'B';
+        /**
+         * @description The default phrase a villager will use when speaking to the player.
+         * @example zzrrbbit
+         */
+        catchphrase?: string;
+        /**
+         * @description The default clothing that the villager wears.
+         * @example Simple Parka
+         */
+        clothing?: string;
+        /**
+         * @description The variation of the clothing (usually a color).
+         * @example Light Blue
+         */
+        clothing_variation?: string;
+        /**
+         * @description The villager's favorite clothing styles.
+         * @example [
+         *   "Simple",
+         *   "Active"
+         * ]
+         */
+        fav_styles?: string[];
+        /**
+         * @description The villager's favorite colors (giving the villager a gift with one of their favorite colors increases friendship points).
+         * @example [
+         *   "Blue",
+         *   "Aqua"
+         * ]
+         */
+        fav_colors?: string[];
+        /**
+         * @description The villager's primary hobby, which determines most of the activities they will do around the island (e.g. education villagers will frequently read books and visit the museum). Learn more at https://nookipedia.com/wiki/Hobbies
+         * @example Fitness
+         * @enum {string}
+         */
+        hobby?:
+          | 'Education'
+          | 'Fashion'
+          | 'Fitness'
+          | 'Music'
+          | 'Nature'
+          | 'Play';
+        /**
+         * @description A screenshot of the villager's house interior.
+         * @example https://dodo.ac/np/images/8/86/House_of_Ribbot_NH.png
+         */
+        house_interior_url?: string;
+        /**
+         * @description A rendered model of the villager's house exterior. Note that this is not an official Nintendo asset, but a render based of the in-game model.
+         * @example https://dodo.ac/np/images/4/42/House_of_Ribbot_NH_Model.png
+         */
+        house_exterior_url?: string;
+        /**
+         * @description The wallpaper in the villager's house.
+         * @example Circuit-Board Wall
+         */
+        house_wallpaper?: string;
+        /**
+         * @description The flooring in the villager's house.
+         * @example Future-Tech Flooring
+         */
+        house_flooring?: string;
+        /**
+         * @description The music in the villager's house.
+         * @example K.K. Technopop
+         */
+        house_music?: string;
+        /**
+         * @description Any notes about the villager's music. If populated, this is usually "Does not contain a stereo initially", meaning that the villager's house will not play music unless provided with a stereo.
+         * @example
+         */
+        house_music_note?: string;
+      };
     };
     NHFish: {
       /**
@@ -348,7 +761,7 @@ export interface components {
        * @description Image of the fish. dodo.ac is Nookipedia's CDN server.
        * @example https://dodo.ac/np/images/d/db/Cherry_Salmon_NH_Icon.png
        */
-      image?: string;
+      image_url?: string;
       /**
        * @description The catchphrase the player says after catching the fish.
        * @example I caught a cherry salmon! It's the perfect topper for a marlin sundae!
@@ -476,7 +889,7 @@ export interface components {
        * @description Image of the bug. dodo.ac is Nookipedia's CDN server.
        * @example https://dodo.ac/np/images/3/37/Grasshopper_NH_Icon.png
        */
-      image?: string;
+      image_url?: string;
       /**
        * @description The catchphrase the player says after catching the bug.
        * @example I caught a grasshopper! They're a grass act!
@@ -576,7 +989,7 @@ export interface components {
        * @description Image of the sea creature. dodo.ac is Nookipedia's CDN server.
        * @example https://dodo.ac/np/images/5/58/Octopus_NH_Icon.png
        */
-      image?: string;
+      image_url?: string;
       /**
        * @description The catchphrase the player says after catching the sea creature.
        * @example I got an octopus! It can give four hugs at once!

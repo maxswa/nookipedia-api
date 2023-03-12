@@ -403,6 +403,52 @@ export interface paths {
       };
     };
   };
+  '/nh/events': {
+    /**
+     * All New Horizons events
+     * @description Get a list of events and dates in *Animal Crossing: New Horizons*, filterable to specific years, months, or days. Data is available for the current and next year.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify a specific date (in the current or next year) to retrieve events for. Accepts many date formats, such as `YYYY-MM-DD` or `Month Day, Year`, as well as `today` to retrieve the current day's events (UTC time). */
+          date?: string;
+          /** @description Specify the year to retrieve events for. Must be the current or next year. */
+          year?: string;
+          /** @description Specify the month to retrieve events for (accepts multiple formats, such as `Oct`, `October`, or `10`). Most likely want to use alongside `year`, otherwise events in both the current and next year are returned. */
+          month?: string;
+          /** @description Specify the day of the month to retrieve events for. */
+          day?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of events. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHEvent'][];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
   '/nh/art': {
     /**
      * All New Horizons artwork
@@ -491,6 +537,613 @@ export interface paths {
       };
     };
   };
+  '/nh/furniture': {
+    /**
+     * All New Horizons furniture
+     * @description Get a list of all furniture and their details in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify the category of furniture to return (houswares, miscellaneous, or wall-mounted). */
+          category?: 'Housewares' | 'Miscellaneous' | 'Wall-mounted';
+          /** @description Return furniture that matches the provided colors (may specify one or two colors). */
+          color?: (
+            | 'Aqua'
+            | 'Beige'
+            | 'Black'
+            | 'Blue'
+            | 'Brown'
+            | 'Colorful'
+            | 'Gray'
+            | 'Green'
+            | 'Orange'
+            | 'Pink'
+            | 'Purple'
+            | 'Red'
+            | 'White'
+            | 'Yellow'
+          )[];
+          /** @description When set to `true`, only furniture names are returned. Instead of an array of objects with all details, the return will be an array of strings. */
+          excludedetails?: string;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of furniture. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHFurniture'][];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/furniture/{furniture}': {
+    /**
+     * Single New Horizons furniture
+     * @description Retrieve information about a specific furniture in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+        path: {
+          /** @description The name of the furniture you wish to retrieve information about. */
+          furniture: string;
+        };
+      };
+      responses: {
+        /** @description A JSON object describing the furniture. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHFurniture'];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/clothing': {
+    /**
+     * All New Horizons clothing
+     * @description Get a list of all clothing items and their details in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify the category of clothing to return. */
+          category?:
+            | 'Tops'
+            | 'Bottoms'
+            | 'Dress-up'
+            | 'Headware'
+            | 'Accessories'
+            | 'Socks'
+            | 'Shoes'
+            | 'Bags'
+            | 'Umbrellas';
+          /** @description Return clothing that matches the provided colors (may specify one or two colors). Colors are used for gifting villagers. */
+          color?: (
+            | 'Aqua'
+            | 'Beige'
+            | 'Black'
+            | 'Blue'
+            | 'Brown'
+            | 'Colorful'
+            | 'Gray'
+            | 'Green'
+            | 'Orange'
+            | 'Pink'
+            | 'Purple'
+            | 'Red'
+            | 'White'
+            | 'Yellow'
+          )[];
+          /** @description Return clothing that matches the provided styles (may specify one or two styles). Styles are used for gifting villagers. */
+          style?: (
+            | 'Active'
+            | 'Cool'
+            | 'Cute'
+            | 'Elegant'
+            | 'Gorgeous'
+            | 'Simple'
+          )[];
+          /** @description Return clothing that have the specified Label theme. This is used for completing the requested outfit theme for [Label](https://nookipedia.com/wiki/Label) when she visits the player's island. */
+          labeltheme?:
+            | 'Comfy'
+            | 'Everyday'
+            | 'Fairy tale'
+            | 'Formal'
+            | 'Goth'
+            | 'Outdoorsy'
+            | 'Party'
+            | 'Sporty'
+            | 'Theatrical'
+            | 'Vacation'
+            | 'Work';
+          /** @description When set to `true`, only clothing names are returned. Instead of an array of objects with all details, the return will be an array of strings. */
+          excludedetails?: string;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of clothing. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHClothing'][];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/clothing/{clothing}': {
+    /**
+     * Single New Horizons clothing
+     * @description Retrieve information about a specific clothing item in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+        path: {
+          /** @description The name of the clothing you wish to retrieve information about. */
+          clothing: string;
+        };
+      };
+      responses: {
+        /** @description A JSON object describing the clothing. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHClothing'];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/interior': {
+    /**
+     * All New Horizons interior items
+     * @description Get a list of all interior items (flooring, wallpaper, and rugs) and their details in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Return furniture that matches the provided colors (may specify one or two colors). */
+          color?: (
+            | 'Aqua'
+            | 'Beige'
+            | 'Black'
+            | 'Blue'
+            | 'Brown'
+            | 'Colorful'
+            | 'Gray'
+            | 'Green'
+            | 'Orange'
+            | 'Pink'
+            | 'Purple'
+            | 'Red'
+            | 'White'
+            | 'Yellow'
+          )[];
+          /** @description When set to `true`, only interior item names are returned. Instead of an array of objects with all details, the return will be an array of strings. */
+          excludedetails?: string;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of interior items. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHInterior'][];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/interior/{item}': {
+    /**
+     * Single New Horizons interior item
+     * @description Retrieve information about a specific interior item in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Return furniture that matches the provided colors (may specify one or two colors). */
+          color?: (
+            | 'Aqua'
+            | 'Beige'
+            | 'Black'
+            | 'Blue'
+            | 'Brown'
+            | 'Colorful'
+            | 'Gray'
+            | 'Green'
+            | 'Orange'
+            | 'Pink'
+            | 'Purple'
+            | 'Red'
+            | 'White'
+            | 'Yellow'
+          )[];
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+        path: {
+          /** @description The name of the interior item you wish to retrieve information about. */
+          item: string;
+        };
+      };
+      responses: {
+        /** @description A JSON object describing the interior item. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHInterior'];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/tools': {
+    /**
+     * All New Horizons tools
+     * @description Get a list of all tools and their details in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description When set to `true`, only tool names are returned. Instead of an array of objects with all details, the return will be an array of strings. */
+          excludedetails?: string;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of interior items. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHTool'][];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/tools/{tool}': {
+    /**
+     * Single New Horizons tool
+     * @description Retrieve information about a specific tool in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+        path: {
+          /** @description The name of the interior item you wish to retrieve information about. */
+          tool: string;
+        };
+      };
+      responses: {
+        /** @description A JSON object describing the tool. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHTool'];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/photos': {
+    /**
+     * All New Horizons photos and posters
+     * @description Get a list of all character photos+posters and their details in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description When set to `true`, only item names are returned. Instead of an array of objects with all details, the return will be an array of strings. */
+          excludedetails?: string;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of photos and posters. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHPhoto'][];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/photos/{item}': {
+    /**
+     * Single New Horizons photo or poster
+     * @description Retrieve information about a character photo or poster in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+        path: {
+          /** @description The name of the photo or poster you wish to retrieve information about. */
+          item: string;
+        };
+      };
+      responses: {
+        /** @description A JSON object describing the photo or poster. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHPhoto'];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/items': {
+    /**
+     * Miscellaneous New Horizons items
+     * @description Get a list of all miscellaneous items (such as materials, star fragments, fruits, fences, and plants) and their details in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description When set to `true`, only item names are returned. Instead of an array of objects with all details, the return will be an array of strings. */
+          excludedetails?: string;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of items. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHItem'][];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/items/{item}': {
+    /**
+     * Single New Horizons miscellaneous item
+     * @description Retrieve information about a miscellaneous item (such as materials, star fragments, fruits, fences, and plants) in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+        path: {
+          /** @description The name of the interior item you wish to retrieve information about. */
+          item: string;
+        };
+      };
+      responses: {
+        /** @description A JSON object describing the item. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHItem'];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
   '/nh/recipes': {
     /**
      * All New Horizons recipes
@@ -562,52 +1215,6 @@ export interface paths {
         200: {
           content: {
             'application/json': components['schemas']['NHRecipe'];
-          };
-        };
-        /** @description Failed to authenticate user from `X-API-KEY`. */
-        401: {
-          content: {
-            'application/json': components['schemas']['Error401'];
-          };
-        };
-        /** @description There was an error fetching the requested data. */
-        500: {
-          content: {
-            'application/json': components['schemas']['Error500'];
-          };
-        };
-      };
-    };
-  };
-  '/nh/events': {
-    /**
-     * All New Horizons events
-     * @description Get a list of all ongoing or upcoming events in *Animal Crossing: New Horizons*.
-     */
-    get: {
-      parameters: {
-        query: {
-          /** @description Specify a year of the event. */
-          year?: string;
-          /** @description Specify a month of the event. */
-          month?: string;
-          /** @description Specify a day of the event. */
-          day?: string;
-          /** @description When set to `true`, only recipe names are returned. Instead of an array of objects with all details, the return will be an array of strings. */
-          excludedetails?: string;
-        };
-        header: {
-          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
-          'X-API-KEY': string;
-          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
-          'Accept-Version': string;
-        };
-      };
-      responses: {
-        /** @description A JSON array of recipes. */
-        200: {
-          content: {
-            'application/json': components['schemas']['NHEvent'][];
           };
         };
         /** @description Failed to authenticate user from `X-API-KEY`. */
@@ -781,10 +1388,15 @@ export interface components {
        */
       gender?: 'Male' | 'Female';
       /**
-       * @description Birthday of the villager in 'Month Day' form. Note that villager birthdays were not introduced until *Wild World*. For villagers who didn't appear in *Wild World* or any later games, this field will be an empty string.
-       * @example February 13
+       * @description Birthday month of the villager. Note that villager birthdays were not introduced until *Wild World*. For villagers who didn't appear in *Wild World* or any later games, this field will be an empty string.
+       * @example February
        */
-      birthday?: string;
+      birthday_month?: string;
+      /**
+       * @description Birthday day of the villager. Note that villager birthdays were not introduced until *Wild World*. For villagers who didn't appear in *Wild World* or any later games, this field will be an empty string.
+       * @example 13
+       */
+      birthday_day?: string;
       /**
        * @description The villager's astrological star sign.
        * @example Aquarius
@@ -1427,7 +2039,7 @@ export interface components {
        */
       image_url?: string;
       /**
-       * @description Render of the bug. dodo.ac is Nookipedia's CDN server.
+       * @description Render of the sea creature. dodo.ac is Nookipedia's CDN server.
        * @example https://dodo.ac/np/images/2/27/Octopus_NH.png
        */
       render_url?: string;
@@ -1629,6 +2241,29 @@ export interface components {
         months_array?: number[];
       };
     };
+    NHEvent: {
+      /**
+       * @description The description of the event.
+       * @example May Day event begins
+       */
+      event?: string;
+      /**
+       * @description The date of the event in YYYY-MM-DD format.
+       * @example 2021-05-01
+       */
+      date?: string;
+      /**
+       * @description The type of event. "Event" is a festivity the player can take part in. "Nook Shopping" refers to the [seasonal events](https://nookipedia.com/wiki/Nook_Shopping_seasonal_event) in which exclusive item(s) are available via []Nook Shopping](https://nookipedia.com/wiki/Nook_Shopping). "Recipes" refers to the start or end of certain recipes being available. "Birthday" refers to the birthday of a villager or special character.
+       * @example Event
+       * @enum {string}
+       */
+      type?: 'Event' | 'Nook Shopping' | 'Recipes' | 'Birthday';
+      /**
+       * @description Link to the respective Nookipedia article for the event.
+       * @example https://nookipedia.com/wiki/May_Day
+       */
+      url?: string;
+    };
     NHArtwork: {
       /**
        * @description Name of the artwork.
@@ -1713,6 +2348,963 @@ export interface components {
        */
       length?: number;
     };
+    NHFurniture: {
+      /**
+       * @description The name of the furniture.
+       * @example Antique Vanity
+       */
+      name?: string;
+      /**
+       * @description Link to the respective Nookipedia article.
+       * @example https://nookipedia.com/wiki/Item:Antique_Vanity_(New_Horizons)
+       */
+      url?: string;
+      /**
+       * @description The category of item as shown in the player's inventory.
+       * @example Housewares
+       * @enum {string}
+       */
+      category?: 'Housewares' | 'Miscellaneous' | 'Wall-mounted';
+      /**
+       * @description The [furniture series](https://nookipedia.com/wiki/Series_(furniture)) the item is a part of, if any. A series is a collection of furniture and interior items, all with the same theme. If the item is not part of a series, this will be an empty string.
+       * @example Antique
+       */
+      item_series?: string;
+      /**
+       * @description The [furniture set](https://nookipedia.com/wiki/Set) the item is a part of, if any. A set is a smaller collection of related furniture items. If the item is not part of a set, this will be an empty string.
+       * @example
+       */
+      item_set?: string;
+      /**
+       * @description A list of [themes](https://nookipedia.com/wiki/Theme_(furniture)) (if any) that the item belongs to.
+       * @example [
+       *   "Living Room",
+       *   "Expensive"
+       * ]
+       */
+      themes?: string[];
+      /**
+       * @description The HHA category the item is a part of, if any. If the item does not have an HHA category, this will be an empty string.
+       * @example Dresser
+       */
+      hha_category?: string;
+      /**
+       * @description The base value that the item provides to a player's Happy Home Academy score when placed in their home.
+       * @example 251
+       */
+      hha_base?: number;
+      /**
+       * @description The tag of an item, if any, which denotes a specific use or relation to an event. Tags are determined by Nintendo. Examples include "Chair", "Musical Instrument", and "Mario". If the item does not have a tag, this will be an empty string.
+       * @example Dresser
+       */
+      tag?: string;
+      /**
+       * @description Whether or not the item is lucky. Lucky items give a 777-point HHA bonus. Some items are only counted as lucky in certain seasons, as indicated by the `lucky_season` field.
+       * @example false
+       */
+      lucky?: boolean;
+      /**
+       * @description The season in which the item is lucky (or "All year" if lucky throughout the entire year). Items that are not lucky will have this field as an empty string.
+       * @example
+       * @enum {string}
+       */
+      lucky_season?:
+        | ''
+        | 'All year'
+        | 'Spring'
+        | 'Summer'
+        | 'Autumn'
+        | 'Winter';
+      /**
+       * @description An array of prices, for when the item may be purchased with Bells, Nook Miles, etc..
+       * @example [
+       *   {
+       *     "price": 31000,
+       *     "currency": "Bells"
+       *   }
+       * ]
+       */
+      buy?: {
+        price?: number;
+        currency?: string;
+      }[];
+      /**
+       * @description The number of Bells the item can be sold to Nook's store for.
+       * @example 7750
+       */
+      sell?: number;
+      /**
+       * @description The number of variations, between 0 and 8.
+       * @example 3
+       * @enum {integer}
+       */
+      variation_total?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+      /**
+       * @description The number of default patterns available to customize the item with, between 0 and 8. For items with customizable patterns, the player may also customize with patterns of their own.
+       * @example 0
+       * @enum {integer}
+       */
+      pattern_total?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+      /**
+       * @description Whether or not the item is customizable via a crafting table.
+       * @example false
+       */
+      customizable?: boolean;
+      /**
+       * @description The number of `custom_kit_type`s (e.g. Customization Kits) that are needed to customize this item. Value is 0 if the item is not customizable.
+       * @example 0
+       */
+      custom_kits?: number;
+      /**
+       * @description The item that needs to be consumed to customize this item. The vast majority are "Customization Kit", but a small selection of items will require a different item, such as items in the Spooky Series requireing pumpkins.
+       * @example
+       */
+      custom_kit_type?: string;
+      /**
+       * @description If the item has variations, this is the name of the furniture part that changes. For example, for many bamboo items, the custom body part is "Bamboo" as the bamboo color is able to be customized.
+       * @example
+       */
+      custom_body_part?: string;
+      /**
+       * @description If the item's pattern can be customized, this is the name of the furniture part that can have a pattern applied to it. For example, for the Baby Chair, the custom pattern part is "Cushion" as the cushion on the chair may have a pattern applied.
+       * @example
+       */
+      custom_pattern_part?: string;
+      /**
+       * Format: float
+       * @description The number of widthwise grid spaces this item takes up.
+       * @example 2
+       */
+      grid_width?: number;
+      /**
+       * Format: float
+       * @description The number of lengthwise grid spaces this item takes up.
+       * @example 1
+       */
+      grid_length?: number;
+      /**
+       * Format: float
+       * @description The height of the object. One in-game block is 10 units tall, while the player is 15.1324 units tall.
+       * @example 15.98677
+       */
+      height?: number;
+      /**
+       * @description Whether this item may be placed on the exterior door of the player's house.
+       * @example false
+       */
+      door_decor?: boolean;
+      /**
+       * @description The version of *New Horizons* that the item was added. Items that were included at the game's launch have version "1.0.0".
+       * @example 1.0.0
+       */
+      version_added?: string;
+      /**
+       * @description Whether the item is available through legitimate gameplay. Some items are added to the game files in an update, but aren't actually made available until a subsequent update unlocks them.
+       * @example true
+       */
+      unlocked?: boolean;
+      /**
+       * @description A list of functionalities (if any) that the item has. For example, furniture that items can be placed on topof will have "Table" as a function..
+       * @example [
+       *   "Dresser"
+       * ]
+       */
+      functions?: (
+        | 'Trash'
+        | 'Toilet'
+        | 'Table'
+        | 'Storage'
+        | 'Stereo'
+        | 'Seating'
+        | 'Lighting'
+        | 'Instrument'
+        | 'Dresser'
+        | 'Bed'
+        | 'Audio'
+      )[];
+      /**
+       * @description Where the furniture may be obtained from (could be multiple sources). `from` is a brief description of the source; `note`, when provided, provides additional details.
+       * @example [
+       *   {
+       *     "from": "Nook's Cranny (Upgraded)",
+       *     "note": ""
+       *   }
+       * ]
+       */
+      availability?: {
+        from?: string;
+        note?: string;
+      }[];
+      /**
+       * @description An array of objects, each object representing a variation of the furniture. Furniture that has no variations (only one version) will have a single variation object with the image URL and colors, but the `variation` or `pattern` fields will be empty strings. Furniture with multiple variations will have the `variation` and/or `pattern` fields defined depending on whether the furniture varies by body variety, pattern, or both.
+       * @example [
+       *   {
+       *     "variation": "Brown",
+       *     "pattern": "",
+       *     "image_url": "https://dodo.ac/np/images/9/9e/Antique_Vanity_%28Brown%29_NH_Icon.png",
+       *     "colors": [
+       *       "Aqua",
+       *       "Brown"
+       *     ]
+       *   },
+       *   {
+       *     "variation": "Natural",
+       *     "pattern": "",
+       *     "image_url": "https://dodo.ac/np/images/a/ab/Antique_Vanity_%28Natural%29_NH_Icon.png",
+       *     "colors": [
+       *       "Aqua",
+       *       "Beige"
+       *     ]
+       *   },
+       *   {
+       *     "variation": "Black",
+       *     "pattern": "",
+       *     "image_url": "https://dodo.ac/np/images/5/55/Antique_Vanity_%28Black%29_NH_Icon.png",
+       *     "colors": [
+       *       "Aqua",
+       *       "Black"
+       *     ]
+       *   }
+       * ]
+       */
+      variations?: {
+        variation?: string;
+        pattern?: string;
+        image_url?: string;
+        colors?: (
+          | 'Aqua'
+          | 'Beige'
+          | 'Black'
+          | 'Blue'
+          | 'Brown'
+          | 'Colorful'
+          | 'Gray'
+          | 'Green'
+          | 'Orange'
+          | 'Pink'
+          | 'Purple'
+          | 'Red'
+          | 'White'
+          | 'Yellow'
+        )[];
+      }[];
+      /**
+       * @description Any additional miscellaneous information about the item, such as a name change from a past update.
+       * @example
+       */
+      notes?: string;
+    };
+    NHTool: {
+      /**
+       * @description The name of the tool.
+       * @example Axe
+       */
+      name?: string;
+      /**
+       * @description Link the the respective Nookipedia article.
+       * @example https://nookipedia.com/wiki/Item:Axe_(New_Horizons)
+       */
+      url?: string;
+      /**
+       * @description How many times the tool can be used before breaking.
+       * @example 100
+       */
+      uses?: number;
+      /**
+       * @description The base value that the item provides to a player's Happy Home Academy score when placed in their home.
+       * @example 0
+       */
+      hha_base?: number;
+      /**
+       * @description The number of bells the tool can be sold to the store for.
+       * @example 625
+       */
+      sell?: number;
+      /**
+       * @description Whether or not the item is customizable via a crafting table.
+       * @example false
+       */
+      customizable?: boolean;
+      /**
+       * @description The number of `custom_kit_type`s (e.g. Customization Kits) that are needed to customize this item. Value is 0 if the item is not customizable.
+       * @example 0
+       */
+      custom_kits?: number;
+      /**
+       * @description If the item has variations, this is the name of the furniture part that changes. For example, for many bamboo items, the custom body part is "Bamboo" as the bamboo color is able to be customized.
+       * @example
+       */
+      custom_body_part?: string;
+      /**
+       * @description The version of *New Horizons* that the item was added. Items that were included at the game's launch have version "1.0.0".
+       * @example 1.0.0
+       */
+      version_added?: string;
+      /**
+       * @description Whether the item is available through legitimate gameplay. Some items are added to the game files in an update, but aren't actually made available until a subsequent update unlocks them.
+       * @example true
+       */
+      unlocked?: boolean;
+      /**
+       * @description Any additional miscellaneous information about the item, such as a name change from a past update.
+       * @example
+       */
+      notes?: string;
+      /**
+       * @description Where the tool may be obtained from (could be multiple sources). `from` is a brief description of the source; `note`, when provided, provides additional details.
+       * @example [
+       *   {
+       *     "from": "Nook's Cranny",
+       *     "note": ""
+       *   },
+       *   {
+       *     "from": "Crafting",
+       *     "note": ""
+       *   }
+       * ]
+       */
+      availability?: {
+        from?: string;
+        note?: string;
+      }[];
+      /**
+       * @description An array of prices, for when the item may be purchased with Bells, Nook Miles, etc..
+       * @example [
+       *   {
+       *     "price": 2550
+       *   },
+       *   {
+       *     "currency": "Bells"
+       *   }
+       * ]
+       */
+      buy?: {
+        price?: number;
+        currency?: string;
+      }[];
+      /**
+       * @description An array of objects, each object representing a variation of the tool. Tools that has no variations (only one version) will have a single variation object with the image URL and colors, but the `variation` field will be empty. Tools with multiple variations will have the `variation` fields defined with the name of each variation.
+       * @example [
+       *   {
+       *     "variation": "",
+       *     "image_url": "https://dodo.ac/np/images/f/fa/Axe_NH_Icon.png"
+       *   }
+       * ]
+       */
+      variations?: {
+        variation?: string;
+        image_url?: string;
+      }[];
+    };
+    NHPhoto: {
+      /**
+       * @description The name of the photo.
+       * @example Admiral's Photo
+       */
+      name?: string;
+      /**
+       * @description Link to the respective Nookipedia article.
+       * @example https://nookipedia.com/wiki/Item:Admiral's_Photo_(New_Horizons)
+       */
+      url?: string;
+      /**
+       * @description The category of item as shown in the player's inventory.
+       * @example Accessories
+       * @enum {string}
+       */
+      category?: 'Photos' | 'Posters';
+      /**
+       * @description The number of Bells the photo can be sold to the store for.
+       * @example 10
+       */
+      sell?: number;
+      /**
+       * @description Whether or not the item is customizable via a crafting table.
+       * @example false
+       */
+      customizable?: boolean;
+      /**
+       * @description The number of `custom_kit_type`s (e.g. Customization Kits) that are needed to customize this item. Value is 0 if the item is not customizable.
+       * @example 1
+       */
+      custom_kits?: number;
+      /**
+       * @description If the item has variations, this is the name of the furniture part that changes. For example, for many bamboo items, the custom body part is "Bamboo" as the bamboo color is able to be customized.
+       * @example Frame
+       */
+      custom_body_part?: string;
+      /**
+       * @description Whether or not the item can be interacted with. This field is true for all photos and false for all posters.
+       * @example true
+       */
+      interactable?: boolean;
+      /**
+       * @description The version of *New Horizons* that the item was added. Items that were included at the game's launch have version "1.0.0".
+       * @example 1.0.0
+       */
+      version_added?: string;
+      /**
+       * @description Whether the item is available through legitimate gameplay. Some items are added to the game files in an update, but aren't actually made available until a subsequent update unlocks them.
+       * @example true
+       */
+      unlocked?: boolean;
+      /**
+       * Format: float
+       * @description The number of widthwise grid spaces this item takes up.
+       * @example 2
+       */
+      grid_width?: number;
+      /**
+       * Format: float
+       * @description The number of lengthwise grid spaces this item takes up.
+       * @example 1
+       */
+      grid_length?: number;
+      /**
+       * @description Where the photo may be obtained from (could be multiple sources). `from` is a brief description of the source; `note`, when provided, provides additional details.
+       * @example [
+       *   {
+       *     "from": "Friendship",
+       *     "note": ""
+       *   }
+       * ]
+       */
+      availability?: {
+        from?: string;
+        note?: string;
+      }[];
+      /**
+       * @description An array of prices, for when the item may be purchased with Bells, Nook Miles, etc..
+       * @example []
+       */
+      buy?: {
+        price?: number;
+        currency?: string;
+      }[];
+      /**
+       * @description An array of objects, each object representing a variation of the photo or poster. Items that has no variations (only one version) will have a single variation object with the image URL and colors, but the `variation` field will be empty. Items with multiple variations will have the `variation` fields defined with the name of each variation.
+       * @example [
+       *   {
+       *     "variation": "Natural Wood",
+       *     "image_url": "https://dodo.ac/np/images/7/72/Admiral%27s_Photo_%28Natural_Wood%29_NH_Icon.png",
+       *     "colors": [
+       *       "Blue",
+       *       "Green"
+       *     ]
+       *   },
+       *   {
+       *     "variation": "Dark Wood",
+       *     "image_url": "https://dodo.ac/np/images/e/e5/Admiral%27s_Photo_%28Dark_Wood%29_NH_Icon.png",
+       *     "colors": [
+       *       "Blue",
+       *       "Green"
+       *     ]
+       *   },
+       *   {
+       *     "variation": "Pastel",
+       *     "image_url": "https://dodo.ac/np/images/9/9a/Admiral%27s_Photo_%28Pastel%29_NH_Icon.png",
+       *     "colors": [
+       *       "Blue",
+       *       "Green"
+       *     ]
+       *   },
+       *   {
+       *     "variation": "White",
+       *     "image_url": "https://dodo.ac/np/images/1/16/Admiral%27s_Photo_%28White%29_NH_Icon.png",
+       *     "colors": [
+       *       "Blue",
+       *       "Green"
+       *     ]
+       *   },
+       *   {
+       *     "variation": "Pop",
+       *     "image_url": "https://dodo.ac/np/images/b/be/Admiral%27s_Photo_%28Pop%29_NH_Icon.png",
+       *     "colors": [
+       *       "Blue",
+       *       "Green"
+       *     ]
+       *   },
+       *   {
+       *     "variation": "Colorful",
+       *     "image_url": "https://dodo.ac/np/images/5/51/Admiral%27s_Photo_%28Colorful%29_NH_Icon.png",
+       *     "colors": [
+       *       "Blue",
+       *       "Green"
+       *     ]
+       *   },
+       *   {
+       *     "variation": "Silver",
+       *     "image_url": "https://dodo.ac/np/images/e/ed/Admiral%27s_Photo_%28Silver%29_NH_Icon.png",
+       *     "colors": [
+       *       "Blue",
+       *       "Green"
+       *     ]
+       *   },
+       *   {
+       *     "variation": "Gold",
+       *     "image_url": "https://dodo.ac/np/images/c/cf/Admiral%27s_Photo_%28Gold%29_NH_Icon.png",
+       *     "colors": [
+       *       "Blue",
+       *       "Green"
+       *     ]
+       *   }
+       * ]
+       */
+      variations?: {
+        variation?: string;
+        image_url?: string;
+        colors?: (
+          | 'Aqua'
+          | 'Beige'
+          | 'Black'
+          | 'Blue'
+          | 'Brown'
+          | 'Colorful'
+          | 'Gray'
+          | 'Green'
+          | 'Orange'
+          | 'Pink'
+          | 'Purple'
+          | 'Red'
+          | 'White'
+          | 'Yellow'
+        )[];
+      }[];
+    };
+    NHClothing: {
+      /**
+       * @description The name of the clothing.
+       * @example 3D Glasses
+       */
+      name?: string;
+      /**
+       * @description Link to the respective Nookipedia article.
+       * @example https://nookipedia.com/wiki/Item:3D_Glasses_(New_Horizons)
+       */
+      url?: string;
+      /**
+       * @description The category of item as shown in the player's inventory.
+       * @example Accessories
+       * @enum {string}
+       */
+      category?:
+        | 'Tops'
+        | 'Bottoms'
+        | 'Dress-up'
+        | 'Headware'
+        | 'Accessories'
+        | 'Socks'
+        | 'Shoes'
+        | 'Bags'
+        | 'Umbrellas';
+      /**
+       * @description The number of Bells the clothing can be sold to the store for.
+       * @example 122
+       */
+      sell?: number;
+      /**
+       * @description The total number of variations the clothing has, between 0 and 8.
+       * @example 2
+       * @enum {integer}
+       */
+      variation_total?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+      /**
+       * @description Whether villagers may equip this item.
+       * @example true
+       */
+      vill_equip?: boolean;
+      /**
+       * @description The time of the year that the clothing is available.
+       * @example All year
+       */
+      seasonality?: string;
+      /**
+       * @description The version of *New Horizons* that the item was added. Items that were included at the game's launch have version "1.0.0".
+       * @example 1.0.0
+       */
+      version_added?: string;
+      /**
+       * @description Whether the item is available through legitimate gameplay. Some items are added to the game files in an update, but aren't actually made available until a subsequent update unlocks them.
+       * @example true
+       */
+      unlocked?: boolean;
+      /**
+       * @description Any additional miscellaneous information about the clothing, such as a name change from a past update.
+       * @example
+       */
+      notes?: string;
+      /**
+       * @description The clothing's Label theme(s). This is used for completing the requested outfit theme for [Label](https://nookipedia.com/wiki/Label) when she visits the player's island.
+       * @example [
+       *   "Party"
+       * ]
+       */
+      label_themes?: (
+        | 'Comfy'
+        | 'Everyday'
+        | 'Fairy tale'
+        | 'Formal'
+        | 'Goth'
+        | 'Outdoorsy'
+        | 'Party'
+        | 'Sporty'
+        | 'Theatrical'
+        | 'Vacation'
+        | 'Work'
+      )[];
+      /**
+       * @description The clothing's style(s). Styles are used for gifting villagers.
+       * @example [
+       *   "Active"
+       * ]
+       */
+      styles?: (
+        | 'Active'
+        | 'Cool'
+        | 'Cute'
+        | 'Elegant'
+        | 'Gorgeous'
+        | 'Simple'
+      )[];
+      /**
+       * @description Where the clothing may be obtained from (could be multiple sources). `from` is a brief description of the source; `note`, when provided, provides additional details.
+       * @example [
+       *   {
+       *     "from": "Able Sisters",
+       *     "note": ""
+       *   }
+       * ]
+       */
+      availability?: {
+        from?: string;
+        note?: string;
+      }[];
+      /**
+       * @description An array of prices, for when the item may be purchased with Bells, Nook Miles, etc..
+       * @example [
+       *   {
+       *     "price": 490,
+       *     "currency": "Bells"
+       *   }
+       * ]
+       */
+      buy?: {
+        price?: number;
+        currency?: string;
+      }[];
+      /**
+       * @description An array of objects, each object representing a variation of the clothing. Clothing that has no variations (only one version) will have a single variation object with the image URL and colors, but the `variation` field will be empty. Clothing with multiple variations will have the `variation` fields defined with the name of each variation.
+       * @example [
+       *   {
+       *     "variation": "White",
+       *     "image_url": "https://dodo.ac/np/images/1/15/3D_Glasses_%28White%29_NH_Icon.png",
+       *     "colors": [
+       *       "White",
+       *       "Colorful"
+       *     ]
+       *   },
+       *   {
+       *     "variation": "Black",
+       *     "image_url": "https://dodo.ac/np/images/2/28/3D_Glasses_%28Black%29_NH_Icon.png",
+       *     "colors": [
+       *       "Colorful",
+       *       "Black"
+       *     ]
+       *   }
+       * ]
+       */
+      variations?: {
+        variation?: string;
+        image_url?: string;
+        colors?: (
+          | 'Aqua'
+          | 'Beige'
+          | 'Black'
+          | 'Blue'
+          | 'Brown'
+          | 'Colorful'
+          | 'Gray'
+          | 'Green'
+          | 'Orange'
+          | 'Pink'
+          | 'Purple'
+          | 'Red'
+          | 'White'
+          | 'Yellow'
+        )[];
+      }[];
+    };
+    NHInterior: {
+      /**
+       * @description The name of the interior.
+       * @example Abstract Wall
+       */
+      name?: string;
+      /**
+       * @description Link to the respective Nookipedia article.
+       * @example https://nookipedia.com/wiki/Item:Abstract_Wall_(New_Horizons)
+       */
+      url?: string;
+      /**
+       * @description Image of the interior. dodo.ac is Nookipedia's CDN server.
+       * @example https://dodo.ac/np/images/2/2d/Abstract_Wall_NH_Icon.png
+       */
+      image_url?: string;
+      /**
+       * @description The category of item as shown in the player's inventory.
+       * @example Wallpaper
+       * @enum {string}
+       */
+      category?: 'Floors' | 'Wallpaper' | 'Rugs';
+      /**
+       * @description The [furniture series](https://nookipedia.com/wiki/Series_(furniture)) the item is a part of, if any. A series is a collection of furniture and interior items, all with the same theme. If the item is not part of a series, this will be an empty string.
+       * @example
+       */
+      item_series?: string;
+      /**
+       * @description The [furniture set](https://nookipedia.com/wiki/Set) the item is a part of, if any. A set is a smaller collection of related furniture items. If the item is not part of a set, this will be an empty string.
+       * @example
+       */
+      item_set?: string;
+      /**
+       * @description A list of [themes](https://nookipedia.com/wiki/Theme_(furniture)) (if any) that the item belongs to.
+       * @example [
+       *   "Shop",
+       *   "Facility"
+       * ]
+       */
+      themes?: string[];
+      /**
+       * @description The HHA category the item is a part of, if any. If the item does not have an HHA category, this will be an empty string.
+       * @example Dresser
+       */
+      hha_category?: string;
+      /**
+       * @description The base value that the item provides to a player's Happy Home Academy score when placed in their home.
+       * @example 0
+       */
+      hha_base?: number;
+      /**
+       * @description The tag of an item, if any, which denotes a specific use or relation to an event. Tags are determined by Nintendo. Examples include "Chair", "Musical Instrument", and "Mario". If the item does not have a tag, this will be an empty string.
+       * @example Dresser
+       */
+      tag?: string;
+      /**
+       * @description The number of Bells the interior can be sold to Nook's store for.
+       * @example 200
+       */
+      sell?: number;
+      /**
+       * @description The version of *New Horizons* that the item was added. Items that were included at the game's launch have version "1.0.0".
+       * @example 1.0.0
+       */
+      version_added?: string;
+      /**
+       * @description Whether the item is available through legitimate gameplay. Some items are added to the game files in an update, but aren't actually made available until a subsequent update unlocks them.
+       * @example true
+       */
+      unlocked?: boolean;
+      /**
+       * @description Any additional miscellaneous information about the item, such as a name change from a past update.
+       * @example
+       */
+      notes?: string;
+      /**
+       * Format: float
+       * @description The number of widthwise grid spaces this item takes up.
+       * @example 2
+       */
+      grid_width?: number;
+      /**
+       * Format: float
+       * @description The number of lengthwise grid spaces this item takes up.
+       * @example 1
+       */
+      grid_length?: number;
+      /**
+       * @description (WIP)
+       * @example [
+       *   "White",
+       *   "Colorful"
+       * ]
+       * @enum {string}
+       */
+      colors?:
+        | 'Aqua'
+        | 'Beige'
+        | 'Black'
+        | 'Blue'
+        | 'Brown'
+        | 'Colorful'
+        | 'Gray'
+        | 'Green'
+        | 'Orange'
+        | 'Pink'
+        | 'Purple'
+        | 'Red'
+        | 'White'
+        | 'Yellow';
+      /**
+       * @description Where the clothing may be obtained from (could be multiple sources). `from` is a brief description of the source; `note`, when provided, provides additional details.
+       * @example [
+       *   {
+       *     "from": "Nook's",
+       *     "note": ""
+       *   }
+       * ]
+       */
+      availability?: {
+        from?: string;
+        note?: string;
+      }[];
+      /**
+       * @description An array of prices, for when the interior may be purchased with Bells, Nook Miles, etc..
+       * @example [
+       *   {
+       *     "price": 1560,
+       *     "currency": "Bells"
+       *   }
+       * ]
+       */
+      buy?: {
+        price?: number;
+        currency?: string;
+      }[];
+    };
+    NHItem: {
+      /**
+       * @description The name of the item.
+       * @example Acorn
+       */
+      name?: string;
+      /**
+       * @description Link to the respective Nookipedia article.
+       * @example https://nookipedia.com/wiki/Item:Acorn_(New_Horizons)
+       */
+      url?: string;
+      /**
+       * @description Image of the interior. dodo.ac is Nookipedia's CDN server.
+       * @example https://dodo.ac/np/images/9/9f/Acorn_NH_Icon.png
+       */
+      image_url?: string;
+      /**
+       * @description How much the item can stack up to in a single inventory slot.
+       * @example 30
+       */
+      stack?: number;
+      /**
+       * @description The base value that the item provides to a player's Happy Home Academy score when placed in their home.
+       * @example 0
+       */
+      hha_base?: number;
+      /**
+       * @description The number of bells the item can be sold to Nook's store for.
+       * @example 200
+       */
+      sell?: number;
+      /**
+       * @description Whether or not the item is a fence or not.
+       * @example false
+       */
+      is_fence?: boolean;
+      /**
+       * @description (WIP)
+       * @example Tree
+       * @enum {string}
+       */
+      material_type?:
+        | ''
+        | 'Bamboo'
+        | 'Mushroom'
+        | 'Trash'
+        | 'Wood'
+        | 'Ore'
+        | 'Snowflake'
+        | 'Tree'
+        | 'Ornament'
+        | 'Fruit'
+        | 'Underwater'
+        | 'Other'
+        | 'Leaf'
+        | 'Shell'
+        | 'Flower'
+        | 'Star Fragment'
+        | 'Feather'
+        | 'Egg'
+        | 'Plant';
+      /**
+       * @description (WIP)
+       * @example Autumn
+       */
+      material_seasonality?: string;
+      /**
+       * @description (WIP)
+       * @example 3
+       */
+      material_sort?: number;
+      /**
+       * @description (WIP)
+       * @example 0
+       */
+      material_name_sort?: number;
+      /**
+       * @description (WIP)
+       * @example 3
+       */
+      material_seasonality_sort?: number;
+      /**
+       * @description Whether the item is edible or not.
+       * @example false
+       */
+      edible?: boolean;
+      /**
+       * @description (WIP)
+       * @example
+       * @enum {string}
+       */
+      plant_type?: '' | 'Pumpkin' | 'Flower' | 'Bush' | 'Tree';
+      /**
+       * @description The version of *New Horizons* that the item was added. Items that were included at the game's launch have version "1.0.0".
+       * @example 1.0.0
+       */
+      version_added?: string;
+      /**
+       * @description Whether the item is available through legitimate gameplay. Some items are added to the game files in an update, but aren't actually made available until a subsequent update unlocks them.
+       * @example true
+       */
+      unlocked?: boolean;
+      /**
+       * @description Any additional miscellaneous information about the item, such as a name change from a past update.
+       * @example
+       */
+      notes?: string;
+      /**
+       * @description Where the clothing may be obtained from (could be multiple sources). `from` is a brief description of the source; `note`, when provided, provides additional details.
+       * @example [
+       *   {
+       *     "from": "Nook's",
+       *     "note": ""
+       *   }
+       * ]
+       */
+      availability?: {
+        from?: string;
+        note?: string;
+      }[];
+      /**
+       * @description An array of prices, for when the interior may be purchased with Bells, Nook Miles, etc..
+       * @example [
+       *   {
+       *     "price": 280,
+       *     "currency": "Bells"
+       *   }
+       * ]
+       */
+      buy?: {
+        price?: number;
+        currency?: string;
+      }[];
+    };
     NHRecipe: {
       /**
        * @description The name of the recipe.
@@ -1791,23 +3383,6 @@ export interface components {
         name?: string;
         count?: number;
       }[];
-    };
-    NHEvent: {
-      /**
-       * @description The date of the event.
-       * @example "2021-05-01T00:00:00.000Z"
-       */
-      date?: Record<string, never>;
-      /**
-       * @description The description of the event.
-       * @example May Day event begins
-       */
-      event?: string;
-      /**
-       * @description The article name of the event.
-       * @example May Day
-       */
-      event_url?: string;
     };
   };
   responses: never;

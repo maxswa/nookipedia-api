@@ -7,8 +7,11 @@ export type Params<Path extends keyof paths> = GetEndpoint<Path>['parameters'];
 export type Query<Path extends keyof paths> = Params<Path>['query'];
 export type JsonResponse<Path extends keyof paths> =
   GetEndpoint<Path>['responses'][200]['content']['application/json'];
-export type OmitOptions<Path extends keyof paths> = {
-  query?: Omit<Query<Path>, 'month' | 'excludedetails'>;
+export type OmitOptions<
+  Path extends keyof paths,
+  OmitKeys extends keyof Query<Path> = never
+> = {
+  query?: Omit<Query<Path>, 'month' | 'excludedetails' | OmitKeys>;
   fetchOptions?: RequestInit;
 };
 export type Options<Path extends keyof paths> = {
@@ -23,6 +26,12 @@ export type MonthResponse<Items> = {
 export type ErrorBody = {
   title?: string;
   details?: string;
+};
+export type RecipeOptionOverride = {
+  query?: {
+    /** @description Specify a material to only get recipes that use that material. You can specify `material` up to six times (no recipe uses more than six materials). */
+    material?: string | string[];
+  };
 };
 
 export class NookipediaError extends Error {
@@ -591,10 +600,12 @@ export class NookipediaApi {
    * All New Horizons recipes
    * @description Get a list of all recipes and their details in *Animal Crossing: New Horizons*.
    */
-  getAllRecipes(options?: OmitOptions<'/nh/recipes'>) {
+  getAllRecipes(
+    options?: OmitOptions<'/nh/recipes', 'material'> & RecipeOptionOverride
+  ) {
     return this.request({
       path: '/nh/recipes',
-      ...options
+      ...(options as Options<'/nh/recipes'>)
     });
   }
 
@@ -602,14 +613,16 @@ export class NookipediaApi {
    * All New Horizons recipe names
    * @description Get a list of all recipes and their details in *Animal Crossing: New Horizons*.
    */
-  getAllRecipeNames(options?: OmitOptions<'/nh/recipes'>) {
+  getAllRecipeNames(
+    options?: OmitOptions<'/nh/recipes', 'material'> & RecipeOptionOverride
+  ) {
     return this.request<'/nh/recipes', string[]>({
       path: '/nh/recipes',
       ...options,
       query: {
         ...options?.query,
         excludedetails: 'true'
-      }
+      } as Query<'/nh/recipes'>
     });
   }
 

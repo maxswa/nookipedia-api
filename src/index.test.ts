@@ -1,7 +1,14 @@
-import { NookipediaApi, NOOKIPEDIA_API_VERSION } from './index';
+import {
+  ErrorBody,
+  NookipediaApi,
+  NookipediaError,
+  NookipediaError401,
+  NOOKIPEDIA_API_VERSION
+} from './index';
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
+    ok: true,
     json: () => Promise.resolve({})
   })
 ) as jest.Mock;
@@ -89,4 +96,26 @@ describe('NookipediaApi', () => {
     expect(mockFetch.mock.lastCall?.[0]?.includes('{')).toEqual(false);
     expect(mockFetch.mock.lastCall?.[0]?.includes('}')).toEqual(false);
   });
+  it('throws NookipediaError when response is not ok', async () => {
+    mockFetch.mockReturnValueOnce(
+      Promise.resolve({
+        ok: false,
+        json: () => Promise.resolve({})
+      })
+    );
+    const nookipedia = new NookipediaApi('');
+    await expect(nookipedia.getAllBugs()).rejects.toThrow(NookipediaError);
+  });
+  it('throws specific NookipediaError when status is supported', async () => {
+    mockFetch.mockReturnValueOnce(
+      Promise.resolve({
+        ok: false,
+        status: 401,
+        json: () => Promise.resolve({})
+      })
+    );
+    const nookipedia = new NookipediaApi('');
+    await expect(nookipedia.getAllBugs()).rejects.toThrow(NookipediaError401);
+  });
 });
+const errorBody: ErrorBody = { title: 'title', details: 'details' };

@@ -1,4 +1,4 @@
-import type { paths } from './types';
+import type { paths, components } from './types';
 
 export const NOOKIPEDIA_API_VERSION = '1.0.0'; // This must match the version number in nookipedia-api.yaml
 
@@ -9,6 +9,34 @@ export type Options<Path extends keyof paths> = {
   query?: Query<Path>;
   fetchOptions?: RequestInit;
 };
+
+export interface ErrorBody {
+  title?: string;
+  details?: string;
+}
+export class NookipediaError extends Error {
+  constructor(public body: ErrorBody, public code?: number) {
+    super(body.title);
+  }
+}
+export class NookipediaError401 extends NookipediaError {
+  public code = 401;
+  constructor(public body: components['schemas']['Error401']) {
+    super(body);
+  }
+}
+export class NookipediaError404 extends NookipediaError {
+  public code = 404;
+  constructor(public body: components['schemas']['Error404']) {
+    super(body);
+  }
+}
+export class NookipediaError500 extends NookipediaError {
+  public code = 500;
+  constructor(public body: components['schemas']['Error500']) {
+    super(body);
+  }
+}
 
 export class NookipediaApi {
   constructor(
@@ -67,7 +95,23 @@ export class NookipediaApi {
       ...fetchOptions,
       headers
     });
-    return fetchResponse.json();
+    const body = await fetchResponse.json();
+    if (fetchResponse.ok) {
+      return body;
+    }
+    switch (fetchResponse.status) {
+      case 401:
+        throw new NookipediaError401(body);
+      case 404:
+        throw new NookipediaError404(body);
+      case 500:
+        throw new NookipediaError500(body);
+      default:
+        throw new NookipediaError(
+          { title: 'Failed to fetch Nookipedia API' },
+          fetchResponse.status
+        );
+    }
   }
 
   getAllBugs(options?: Options<'/nh/bugs'>) {

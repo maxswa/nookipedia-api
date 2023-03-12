@@ -24,6 +24,9 @@
     "nookipedia",
     "api"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "author": "maxswa",
   "scripts": {
     "build": "tsc",

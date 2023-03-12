@@ -259,7 +259,7 @@ export class NookipediaApi {
    * @description Get a list of all ongoing or upcoming events in *Animal Crossing: New Horizons*.
    */
   getAllEventNames(options?: OmitOptions<'/nh/events'>) {
-    return this.request({
+    return this.request<'/nh/events', string[]>({
       path: '/nh/events',
       ...options,
       query: {
@@ -356,7 +356,7 @@ export class NookipediaApi {
    * @description Get a list of all recipes and their details in *Animal Crossing: New Horizons*.
    */
   getAllRecipeNames(options?: OmitOptions<'/nh/recipes'>) {
-    return this.request({
+    return this.request<'/nh/recipes', string[]>({
       path: '/nh/recipes',
       ...options,
       query: {

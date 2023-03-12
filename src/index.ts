@@ -1,6 +1,6 @@
 import type { paths, components } from './types';
 
-export const NOOKIPEDIA_API_VERSION = '1.0.0'; // This must match the version number in nookipedia-api.yaml
+export const NOOKIPEDIA_API_VERSION = '1.0.1'; // This must match the version number in nookipedia-api.yaml
 
 export type GetEndpoint<Path extends keyof paths> = paths[Path]['get'];
 export type Params<Path extends keyof paths> = GetEndpoint<Path>['parameters'];

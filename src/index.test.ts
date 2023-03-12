@@ -5,6 +5,9 @@ import {
   NookipediaError401,
   NOOKIPEDIA_API_VERSION
 } from './index';
+import { readFileSync } from 'fs';
+import { parse } from 'yaml';
+import { resolve } from 'path';
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
@@ -20,6 +23,14 @@ beforeEach(() => {
 });
 
 describe('NookipediaApi', () => {
+  it('NOOKIPEDIA_API_VERSION matches version in OpenAPI spec', async () => {
+    const file = readFileSync(
+      resolve(__dirname, '../nookipedia-api.yaml'),
+      'utf8'
+    );
+    const yaml = parse(file);
+    expect(yaml.info.version).toEqual(NOOKIPEDIA_API_VERSION);
+  });
   it('adds API key header', async () => {
     const apiKey = 'apiKey';
     const nookipedia = new NookipediaApi(apiKey);

@@ -126,6 +126,10 @@ export class NookipediaApi {
     }
   }
 
+  /**
+   * All New Horizons bugs
+   * @description Get a list of all bugs and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+   */
   getAllBugs(options?: OmitOptions<'/nh/bugs'>) {
     return this.request({
       path: '/nh/bugs',
@@ -133,6 +137,11 @@ export class NookipediaApi {
     });
   }
 
+  /**
+   * All New Horizons bugs by month
+   * @param month Value may be the month's name (`jan`, `january`), the integer representing the number (`01`, `1`), or `current` for the current month. When `current` is specified, the return body will be an object with two arrays inside, one called `north` and the other `south` containing the fish available in each respective hemisphere. Note that the current month is calculated based off the API server's time, so it may be slightly off for you at the beginning or end of the month.
+   * @description Get a list of all bugs and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+   */
   getAllBugsByMonth(month: string, options?: OmitOptions<'/nh/bugs'>) {
     return this.request<'/nh/bugs', MonthResponse<JsonResponse<'/nh/bugs'>>>({
       path: '/nh/bugs',
@@ -144,6 +153,10 @@ export class NookipediaApi {
     });
   }
 
+  /**
+   * All New Horizons bug names
+   * @description Get a list of all bugs and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+   */
   getAllBugNames(options?: OmitOptions<'/nh/bugs'>) {
     return this.request<'/nh/bugs', string[]>({
       path: '/nh/bugs',
@@ -155,6 +168,11 @@ export class NookipediaApi {
     });
   }
 
+  /**
+   * All New Horizons bug names by month
+   * @param month Value may be the month's name (`jan`, `january`), the integer representing the number (`01`, `1`), or `current` for the current month. When `current` is specified, the return body will be an object with two arrays inside, one called `north` and the other `south` containing the fish available in each respective hemisphere. Note that the current month is calculated based off the API server's time, so it may be slightly off for you at the beginning or end of the month.
+   * @description Get a list of all bugs and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+   */
   getAllBugNamesByMonth(month: string, options?: OmitOptions<'/nh/bugs'>) {
     return this.request<'/nh/bugs', MonthResponse<string[]>>({
       path: '/nh/bugs',
@@ -167,6 +185,10 @@ export class NookipediaApi {
     });
   }
 
+  /**
+   * Single New Horizons bug
+   * @description Optional extended description in CommonMark or HTML.
+   */
   getBug(bug: string, options?: Options<'/nh/bugs/{bug}'>) {
     return this.request({
       path: '/nh/bugs/{bug}',
@@ -175,6 +197,10 @@ export class NookipediaApi {
     });
   }
 
+  /**
+   * All New Horizons fish
+   * @description Get a list of all fish and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+   */
   getAllFish(options?: OmitOptions<'/nh/fish'>) {
     return this.request({
       path: '/nh/fish',
@@ -182,6 +208,11 @@ export class NookipediaApi {
     });
   }
 
+  /**
+   * All New Horizons fish by month
+   * @param month Value may be the month's name (`jan`, `january`), the integer representing the number (`01`, `1`), or `current` for the current month. When `current` is specified, the return body will be an object with two arrays inside, one called `north` and the other `south` containing the fish available in each respective hemisphere. Note that the current month is calculated based off the API server's time, so it may be slightly off for you at the beginning or end of the month.
+   * @description Get a list of all fish and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+   */
   getAllFishByMonth(month: string, options?: OmitOptions<'/nh/fish'>) {
     return this.request<'/nh/fish', MonthResponse<JsonResponse<'/nh/fish'>>>({
       path: '/nh/fish',
@@ -193,6 +224,10 @@ export class NookipediaApi {
     });
   }
 
+  /**
+   * All New Horizons fish names
+   * @description Get a list of all fish and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+   */
   getAllFishNames(options?: OmitOptions<'/nh/fish'>) {
     return this.request<'/nh/fish', string[]>({
       path: '/nh/fish',
@@ -204,6 +239,11 @@ export class NookipediaApi {
     });
   }
 
+  /**
+   * All New Horizons fish names by month
+   * @param month Value may be the month's name (`jan`, `january`), the integer representing the number (`01`, `1`), or `current` for the current month. When `current` is specified, the return body will be an object with two arrays inside, one called `north` and the other `south` containing the fish available in each respective hemisphere. Note that the current month is calculated based off the API server's time, so it may be slightly off for you at the beginning or end of the month.
+   * @description Get a list of all fish and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+   */
   getAllFishNamesByMonth(month: string, options?: OmitOptions<'/nh/fish'>) {
     return this.request<'/nh/fish', MonthResponse<string[]>>({
       path: '/nh/fish',
@@ -216,6 +256,10 @@ export class NookipediaApi {
     });
   }
 
+  /**
+   * Single New Horizons fish
+   * @description Optional extended description in CommonMark or HTML.
+   */
   getFish(fish: string, options?: Options<'/nh/fish/{fish}'>) {
     return this.request({
       path: '/nh/fish/{fish}',
@@ -224,6 +268,10 @@ export class NookipediaApi {
     });
   }
 
+  /**
+   * All NH sea creatures
+   * @description Get a list of all sea creatures and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+   */
   getAllSeaCreatures(options?: OmitOptions<'/nh/sea'>) {
     return this.request({
       path: '/nh/sea',
@@ -231,6 +279,11 @@ export class NookipediaApi {
     });
   }
 
+  /**
+   * All NH sea creatures by month
+   * @param month Value may be the month's name (`jan`, `january`), the integer representing the number (`01`, `1`), or `current` for the current month. When `current` is specified, the return body will be an object with two arrays inside, one called `north` and the other `south` containing the fish available in each respective hemisphere. Note that the current month is calculated based off the API server's time, so it may be slightly off for you at the beginning or end of the month.
+   * @description Get a list of all sea creatures and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+   */
   getAllSeaCreaturesByMonth(month: string, options?: OmitOptions<'/nh/sea'>) {
     return this.request<'/nh/sea', MonthResponse<JsonResponse<'/nh/sea'>>>({
       path: '/nh/sea',
@@ -242,6 +295,10 @@ export class NookipediaApi {
     });
   }
 
+  /**
+   * All NH sea creature names
+   * @description Get a list of all sea creatures and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+   */
   getAllSeaCreatureNames(options?: OmitOptions<'/nh/sea'>) {
     return this.request<'/nh/sea', string[]>({
       path: '/nh/sea',
@@ -253,6 +310,11 @@ export class NookipediaApi {
     });
   }
 
+  /**
+   * All NH sea creature names by month
+   * @param month Value may be the month's name (`jan`, `january`), the integer representing the number (`01`, `1`), or `current` for the current month. When `current` is specified, the return body will be an object with two arrays inside, one called `north` and the other `south` containing the fish available in each respective hemisphere. Note that the current month is calculated based off the API server's time, so it may be slightly off for you at the beginning or end of the month.
+   * @description Get a list of all sea creatures and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+   */
   getAllSeaCreatureNamesByMonth(
     month: string,
     options?: OmitOptions<'/nh/sea'>
@@ -268,6 +330,10 @@ export class NookipediaApi {
     });
   }
 
+  /**
+   * Single NH sea creature
+   * @description Optional extended description in CommonMark or HTML.
+   */
   getSeaCreature(
     sea_creature: string,
     options?: Options<'/nh/sea/{sea_creature}'>

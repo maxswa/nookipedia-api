@@ -244,28 +244,51 @@ export class NookipediaApi {
   }
 
   /**
-   * All New Horizons events
-   * @description Get a list of all ongoing or upcoming events in *Animal Crossing: New Horizons*.
+   * All New Horizons clothing
+   * @description Get a list of all clothing items and their details in *Animal Crossing: New Horizons*.
    */
-  getAllEvents(options?: OmitOptions<'/nh/events'>) {
+  getAllClothing(options?: OmitOptions<'/nh/clothing'>) {
     return this.request({
-      path: '/nh/events',
+      path: '/nh/clothing',
       ...options
     });
   }
 
   /**
-   * All New Horizons event names
-   * @description Get a list of all ongoing or upcoming events in *Animal Crossing: New Horizons*.
+   * All New Horizons clothing names
+   * @description Get a list of all clothing items and their details in *Animal Crossing: New Horizons*.
    */
-  getAllEventNames(options?: OmitOptions<'/nh/events'>) {
-    return this.request<'/nh/events', string[]>({
-      path: '/nh/events',
+  getAllClothingNames(options?: OmitOptions<'/nh/clothing'>) {
+    return this.request<'/nh/clothing', string[]>({
+      path: '/nh/clothing',
       ...options,
       query: {
         ...options?.query,
         excludedetails: 'true'
       }
+    });
+  }
+
+  /**
+   * Single New Horizons clothing
+   * @description Retrieve information about a specific clothing item in *Animal Crossing: New Horizons*.
+   */
+  getClothing(clothing: string, options?: Options<'/nh/clothing/{clothing}'>) {
+    return this.request({
+      path: '/nh/clothing/{clothing}',
+      replacePath: { clothing },
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons events
+   * @description Get a list of all ongoing or upcoming events in *Animal Crossing: New Horizons*.
+   */
+  getAllEvents(options?: Options<'/nh/events'>) {
+    return this.request({
+      path: '/nh/events',
+      ...options
     });
   }
 
@@ -336,6 +359,161 @@ export class NookipediaApi {
     return this.request({
       path: '/nh/fish/{fish}',
       replacePath: { fish },
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons furniture
+   * @description Get a list of all furniture and their details in *Animal Crossing: New Horizons*.
+   */
+  getAllFurniture(options?: OmitOptions<'/nh/furniture'>) {
+    return this.request({
+      path: '/nh/furniture',
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons furniture names
+   * @description Get a list of all furniture and their details in *Animal Crossing: New Horizons*.
+   */
+  getAllFurnitureNames(options?: OmitOptions<'/nh/furniture'>) {
+    return this.request<'/nh/furniture', string[]>({
+      path: '/nh/furniture',
+      ...options,
+      query: {
+        ...options?.query,
+        excludedetails: 'true'
+      }
+    });
+  }
+
+  /**
+   * Single New Horizons furniture
+   * @description Retrieve information about a specific furniture in *Animal Crossing: New Horizons*.
+   */
+  getFurniture(
+    furniture: string,
+    options?: OmitOptions<'/nh/furniture/{furniture}'>
+  ) {
+    return this.request({
+      path: '/nh/furniture/{furniture}',
+      replacePath: { furniture },
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons interior items
+   * @description Get a list of all interior items (flooring, wallpaper, and rugs) and their details in *Animal Crossing: New Horizons*.
+   */
+  getAllInteriorItems(options?: OmitOptions<'/nh/interior'>) {
+    return this.request({
+      path: '/nh/interior',
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons interior item names
+   * @description Get a list of all interior items (flooring, wallpaper, and rugs) and their details in *Animal Crossing: New Horizons*.
+   */
+  getAllInteriorItemNames(options?: OmitOptions<'/nh/interior'>) {
+    return this.request<'/nh/interior', string[]>({
+      path: '/nh/interior',
+      ...options,
+      query: {
+        ...options?.query,
+        excludedetails: 'true'
+      }
+    });
+  }
+
+  /**
+   * Single New Horizons interior item
+   * @description Retrieve information about a specific interior item in *Animal Crossing: New Horizons*.
+   */
+  getInteriorItem(item: string, options?: Options<'/nh/interior/{item}'>) {
+    return this.request({
+      path: '/nh/interior/{item}',
+      replacePath: { item },
+      ...options
+    });
+  }
+
+  /**
+   * Miscellaneous New Horizons items
+   * @description Get a list of all miscellaneous items (such as materials, star fragments, fruits, fences, and plants) and their details in *Animal Crossing: New Horizons*.
+   */
+  getAllMiscellaneousItems(options?: OmitOptions<'/nh/items'>) {
+    return this.request({
+      path: '/nh/items',
+      ...options
+    });
+  }
+
+  /**
+   * Miscellaneous New Horizons item names
+   * @description Get a list of all miscellaneous items (such as materials, star fragments, fruits, fences, and plants) and their details in *Animal Crossing: New Horizons*.
+   */
+  getAllMiscellaneousItemNames(options?: OmitOptions<'/nh/items'>) {
+    return this.request<'/nh/items', string[]>({
+      path: '/nh/items',
+      ...options,
+      query: {
+        ...options?.query,
+        excludedetails: 'true'
+      }
+    });
+  }
+
+  /**
+   * Single New Horizons miscellaneous item
+   * @description Retrieve information about a miscellaneous item (such as materials, star fragments, fruits, fences, and plants) in *Animal Crossing: New Horizons*.
+   */
+  getMiscellaneousItem(item: string, options?: Options<'/nh/items/{item}'>) {
+    return this.request({
+      path: '/nh/items/{item}',
+      replacePath: { item },
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons photos and posters
+   * @description Get a list of all character photos+posters and their details in *Animal Crossing: New Horizons*.
+   */
+  getAllPhotosAndPosters(options?: OmitOptions<'/nh/photos'>) {
+    return this.request({
+      path: '/nh/photos',
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons photo and poster namess
+   * @description Get a list of all character photos+posters and their details in *Animal Crossing: New Horizons*.
+   */
+  getAllPhotoAndPosterNames(options?: OmitOptions<'/nh/photos'>) {
+    return this.request<'/nh/photos', string[]>({
+      path: '/nh/photos',
+      ...options,
+      query: {
+        ...options?.query,
+        excludedetails: 'true'
+      }
+    });
+  }
+
+  /**
+   * Single New Horizons photo or poster
+   * @description Retrieve information about a character photo or poster in *Animal Crossing: New Horizons*.
+   */
+  getPhotoOrPoster(item: string, options?: Options<'/nh/photos/{item}'>) {
+    return this.request({
+      path: '/nh/photos/{item}',
+      replacePath: { item },
       ...options
     });
   }
@@ -451,6 +629,44 @@ export class NookipediaApi {
     return this.request({
       path: '/nh/sea/{sea_creature}',
       replacePath: { sea_creature },
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons tools
+   * @description Get a list of all tools and their details in *Animal Crossing: New Horizons*.
+   */
+  getAllTools(options?: OmitOptions<'/nh/tools'>) {
+    return this.request({
+      path: '/nh/tools',
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons tool names
+   * @description Get a list of all tools and their details in *Animal Crossing: New Horizons*.
+   */
+  getAllToolNames(options?: OmitOptions<'/nh/tools'>) {
+    return this.request<'/nh/tools', string[]>({
+      path: '/nh/tools',
+      ...options,
+      query: {
+        ...options?.query,
+        excludedetails: 'true'
+      }
+    });
+  }
+
+  /**
+   * Single New Horizons tool
+   * @description Retrieve information about a specific tool in *Animal Crossing: New Horizons*.
+   */
+  getTool(tool: string, options?: Options<'/nh/tools/{tool}'>) {
+    return this.request({
+      path: '/nh/tools/{tool}',
+      replacePath: { tool },
       ...options
     });
   }

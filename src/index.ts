@@ -1,14 +1,17 @@
 import type { paths, components } from './types';
 
-export const NOOKIPEDIA_API_VERSION = '1.4.0'; // This must match the version number in nookipedia-api.yaml
+export const NOOKIPEDIA_API_VERSION = '1.5.0'; // This must match the version number in nookipedia-api.yaml
 
 export type GetEndpoint<Path extends keyof paths> = paths[Path]['get'];
 export type Params<Path extends keyof paths> = GetEndpoint<Path>['parameters'];
 export type Query<Path extends keyof paths> = Params<Path>['query'];
 export type JsonResponse<Path extends keyof paths> =
   GetEndpoint<Path>['responses'][200]['content']['application/json'];
-export type OmitOptions<Path extends keyof paths> = {
-  query?: Omit<Query<Path>, 'month' | 'excludedetails'>;
+export type OmitOptions<
+  Path extends keyof paths,
+  OmitKeys extends keyof Query<Path> = never
+> = {
+  query?: Omit<Query<Path>, 'month' | 'excludedetails' | OmitKeys>;
   fetchOptions?: RequestInit;
 };
 export type Options<Path extends keyof paths> = {
@@ -23,6 +26,12 @@ export type MonthResponse<Items> = {
 export type ErrorBody = {
   title?: string;
   details?: string;
+};
+export type RecipeOptionOverride = {
+  query?: {
+    /** @description Specify a material to only get recipes that use that material. You can specify `material` up to six times (no recipe uses more than six materials). */
+    material?: string | string[];
+  };
 };
 
 export class NookipediaError extends Error {
@@ -364,6 +373,75 @@ export class NookipediaApi {
   }
 
   /**
+   * All New Horizons fossil groups with individual fossils
+   * @description Get a list of all the fossil groups with their respective individual fossils in *Animal Crossing: New Horizons*.
+   */
+  getAllFossilGroupsWithFossils(options?: Options<'/nh/fossils/all'>) {
+    return this.request({ path: '/nh/fossils/all', ...options });
+  }
+
+  /**
+   * Single New Horizons fossil group with individual fossils
+   * @description Retrieve information about a specific fossil group with their respective individual fossils in *Animal Crossing: New Horizons*.
+   */
+  getFossilGroupWithFossils(
+    fossil: string,
+    options?: Options<'/nh/fossils/all/{fossil}'>
+  ) {
+    return this.request({
+      path: '/nh/fossils/all/{fossil}',
+      replacePath: { fossil },
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons fossil groups
+   * @description Get a list of all the fossil groups in *Animal Crossing: New Horizons*.
+   */
+  getAllFossilGroups(options?: Options<'/nh/fossils/groups'>) {
+    return this.request({ path: '/nh/fossils/groups', ...options });
+  }
+
+  /**
+   * Single New Horizons fossil group
+   * @description Retrieve information about a specific fossil group in *Animal Crossing: New Horizons*.
+   */
+  getFossilGroup(
+    fossil_group: string,
+    options?: Options<'/nh/fossils/groups/{fossil_group}'>
+  ) {
+    return this.request({
+      path: '/nh/fossils/groups/{fossil_group}',
+      replacePath: { fossil_group },
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons fossils
+   * @description Get a list of all the individual fossils in *Animal Crossing: New Horizons*.
+   */
+  getAllFossils(options?: Options<'/nh/fossils/individuals'>) {
+    return this.request({ path: '/nh/fossils/individuals', ...options });
+  }
+
+  /**
+   * Single New Horizons fossil
+   * @description Retrieve information about a specific individual fossil in *Animal Crossing: New Horizons*.
+   */
+  getFossil(
+    fossil: string,
+    options?: Options<'/nh/fossils/individuals/{fossil}'>
+  ) {
+    return this.request({
+      path: '/nh/fossils/individuals/{fossil}',
+      replacePath: { fossil },
+      ...options
+    });
+  }
+
+  /**
    * All New Horizons furniture
    * @description Get a list of all furniture and their details in *Animal Crossing: New Horizons*.
    */
@@ -522,10 +600,12 @@ export class NookipediaApi {
    * All New Horizons recipes
    * @description Get a list of all recipes and their details in *Animal Crossing: New Horizons*.
    */
-  getAllRecipes(options?: OmitOptions<'/nh/recipes'>) {
+  getAllRecipes(
+    options?: OmitOptions<'/nh/recipes', 'material'> & RecipeOptionOverride
+  ) {
     return this.request({
       path: '/nh/recipes',
-      ...options
+      ...(options as Options<'/nh/recipes'>)
     });
   }
 
@@ -533,14 +613,16 @@ export class NookipediaApi {
    * All New Horizons recipe names
    * @description Get a list of all recipes and their details in *Animal Crossing: New Horizons*.
    */
-  getAllRecipeNames(options?: OmitOptions<'/nh/recipes'>) {
+  getAllRecipeNames(
+    options?: OmitOptions<'/nh/recipes', 'material'> & RecipeOptionOverride
+  ) {
     return this.request<'/nh/recipes', string[]>({
       path: '/nh/recipes',
       ...options,
       query: {
         ...options?.query,
         excludedetails: 'true'
-      }
+      } as Query<'/nh/recipes'>
     });
   }
 

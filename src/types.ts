@@ -653,7 +653,7 @@ export interface paths {
             | 'Tops'
             | 'Bottoms'
             | 'Dress-up'
-            | 'Headware'
+            | 'Headwear'
             | 'Accessories'
             | 'Socks'
             | 'Shoes'
@@ -1232,6 +1232,258 @@ export interface paths {
       };
     };
   };
+  '/nh/fossils/individuals': {
+    /**
+     * All New Horizons fossils
+     * @description Get a list of all the individual fossils in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of individual fossils. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHIndividualFossil'][];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/fossils/individuals/{fossil}': {
+    /**
+     * Single New Horizons fossil
+     * @description Retrieve information about a specific individual fossil in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+        path: {
+          /** @description The name of the individual fossil you wish to retrieve fossil information about. */
+          fossil: string;
+        };
+      };
+      responses: {
+        /** @description A JSON object describing the individual fossil. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHIndividualFossil'];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/fossils/groups': {
+    /**
+     * All New Horizons fossil groups
+     * @description Get a list of all the fossil groups in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of fossil groups. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHFossilGroup'][];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/fossils/groups/{fossil_group}': {
+    /**
+     * Single New Horizons fossil group
+     * @description Retrieve information about a specific fossil group in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+        path: {
+          /** @description The name of the fossil group you wish to retrieve information about. */
+          fossil_group: string;
+        };
+      };
+      responses: {
+        /** @description A JSON object describing the fossil group. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHFossilGroup'];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/fossils/all': {
+    /**
+     * All New Horizons fossil groups or individual fossil
+     * @description Get a list of all the fossil groups with their respective individual fossils in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+      };
+      responses: {
+        /** @description A JSON array of fossil groups. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHFossilGroupWithIndividualFossilsNoMatched'][];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
+  '/nh/fossils/all/{fossil}': {
+    /**
+     * Single New Horizons fossil group with individual fossils
+     * @description Retrieve information about a specific fossil group with their respective individual fossils in *Animal Crossing: New Horizons*.
+     */
+    get: {
+      parameters: {
+        query: {
+          /** @description Specify the desired width of returned image URLs. When unspecified, the linked image(s) returned by the API will be full-resolution. Note that images can only be reduced in size; specifying a width greater than than the maximum size will return the default full-size image URL. */
+          thumbsize?: number;
+        };
+        header: {
+          /** @description Your UUID secret key, granted to you by the Nookipedia team. Required for accessing the API. */
+          'X-API-KEY': string;
+          /** @description The version of the API you are calling, written as `1.0.0`. This is specified as required as good practice, but it is not actually enforced by the API. If you do not specify a version, you will be served the latest version, which may eventually result in breaking changes. */
+          'Accept-Version': string;
+        };
+        path: {
+          /** @description The name of the fossil OR fossil group you wish to retrieve information about. If a fossil is provided, a fossil group that the specified fossil belongs to will be returned. */
+          fossil: string;
+        };
+      };
+      responses: {
+        /** @description A JSON object describing the fossil group. */
+        200: {
+          content: {
+            'application/json': components['schemas']['NHFossilGroupWithIndividualFossils'];
+          };
+        };
+        /** @description Failed to authenticate user from `X-API-KEY`. */
+        401: {
+          content: {
+            'application/json': components['schemas']['Error401'];
+          };
+        };
+        /** @description There was an error fetching the requested data. */
+        500: {
+          content: {
+            'application/json': components['schemas']['Error500'];
+          };
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -1617,11 +1869,6 @@ export interface components {
        */
       render_url?: string;
       /**
-       * @description The time(s) the fish is available. If all day, string will be `"All day"`.
-       * @example 4 PM – 9 AM
-       */
-      time?: string;
-      /**
        * @description Short descriptor of where the fish can be found.
        * @example River (clifftop)
        */
@@ -1846,11 +2093,6 @@ export interface components {
        */
       render_url?: string;
       /**
-       * @description The time(s) the bug is available. If all day, string will be `"All day"`.
-       * @example 8 AM – 5 PM
-       */
-      time?: string;
-      /**
        * @description Short descriptor of where the bug can be found.
        * @example On the ground
        */
@@ -2043,11 +2285,6 @@ export interface components {
        * @example https://dodo.ac/np/images/2/27/Octopus_NH.png
        */
       render_url?: string;
-      /**
-       * @description The time(s) the sea creature is available. If all day, string will be `"All day"`.
-       * @example All day
-       */
-      time?: string;
       /**
        * @description Short descriptor of where the sea creature can be found.
        * @example Medium
@@ -2891,7 +3128,7 @@ export interface components {
         | 'Tops'
         | 'Bottoms'
         | 'Dress-up'
-        | 'Headware'
+        | 'Headwear'
         | 'Accessories'
         | 'Socks'
         | 'Shoes'
@@ -3382,6 +3619,296 @@ export interface components {
       materials?: {
         name?: string;
         count?: number;
+      }[];
+    };
+    NHIndividualFossil: {
+      /**
+       * @description The name of the fossil.
+       * @example Spino Skull
+       */
+      name?: string;
+      /**
+       * @description Link to the respective Nookipedia article.
+       * @example https://nookipedia.com/wiki/Spinosaurus
+       */
+      url?: string;
+      /**
+       * @description Image of the fossil's icon. dodo.ac is Nookipedia's CDN server.
+       * @example https://dodo.ac/np/images/7/7b/Spino_Skull_NH_Icon.png
+       */
+      image_url?: string;
+      /**
+       * @description The name of the group that the fossil belongs to.
+       * @example Spinosaurus
+       */
+      fossil_group?: string;
+      /**
+       * @description Whether or not the item can be interacted with.
+       * @example false
+       */
+      interactable?: boolean;
+      /**
+       * @description The number of bells the item can be sold to Nook's store for.
+       * @example 4000
+       */
+      sell?: number;
+      /**
+       * @description The base value that the item provides to a player's Happy Home Academy score when placed in their home.
+       * @example 87
+       */
+      hha_base?: number;
+      /**
+       * @description The width of the fossil.
+       * @example 2
+       */
+      width?: number;
+      /**
+       * @description The length of the fossil.
+       * @example 2
+       */
+      length?: number;
+      /**
+       * @example [
+       *   "Brown"
+       * ]
+       */
+      colors?: (
+        | 'Aqua'
+        | 'Beige'
+        | 'Black'
+        | 'Blue'
+        | 'Brown'
+        | 'Colorful'
+        | 'Gray'
+        | 'Green'
+        | 'Orange'
+        | 'Pink'
+        | 'Purple'
+        | 'Red'
+        | 'White'
+        | 'Yellow'
+      )[];
+    };
+    NHFossilGroup: {
+      /**
+       * @description The name of the fossil group.
+       * @example Spinosaurus
+       */
+      name?: string;
+      /**
+       * @description Link to the respective Nookipedia article.
+       * @example https://nookipedia.com/wiki/Spinosaurus
+       */
+      url?: string;
+      /**
+       * @description The room where the fossil group can be found in the museum's fossil section.
+       * @example 2
+       */
+      room?: number;
+      /**
+       * @description A description of the fossil group.
+       * @example Ahem. Yes. The Spinosaurus was a very large, carnivorous dinosaur, roughly the size of a T. Rex. Unlike its more famous cousin, however, Spinosaurus seems to have spent a great deal of time in water. Similar to modern crocodiles, this creature lived on a diet of fish AND land-dwelling animals. Personally, I am simply relieved that it did not seek FLYING prey.
+       */
+      description?: string;
+    };
+    NHFossilGroupWithIndividualFossils: {
+      /**
+       * @description The name of the fossil group.
+       * @example Spinosaurus
+       */
+      name?: string;
+      /**
+       * @description Link to the respective Nookipedia article.
+       * @example https://nookipedia.com/wiki/Spinosaurus
+       */
+      url?: string;
+      /**
+       * @description The room where the fossil group can be found in the museum's fossil section.
+       * @example 2
+       */
+      room?: number;
+      /**
+       * @description A description of the fossil group.
+       * @example Ahem. Yes. The Spinosaurus was a very large, carnivorous dinosaur, roughly the size of a T. Rex. Unlike its more famous cousin, however, Spinosaurus seems to have spent a great deal of time in water. Similar to modern crocodiles, this creature lived on a diet of fish AND land-dwelling animals. Personally, I am simply relieved that it did not seek FLYING prey.
+       */
+      description?: string;
+      matched?: {
+        /**
+         * @description If the query given was a fossil group, `group` would be returned. Otherwise, `individual` is returned.
+         * @example individual
+         */
+        type?: string;
+        /**
+         * @description The name of the fossil or fossil group that matched the given query.
+         * @example Spino Skull
+         */
+        name?: string;
+      };
+      /**
+       * @description An array of objects, each object representing a fossil that belongs to the given group.
+       * @example [
+       *   {
+       *     "name": "Spino Skull",
+       *     "url": "https://nookipedia.com/wiki/Spinosaurus",
+       *     "image_url": "https://dodo.ac/np/images/7/7b/Spino_Skull_NH_Icon.png",
+       *     "interactable": true,
+       *     "sell": 4000,
+       *     "hha_base": 87,
+       *     "width": 2,
+       *     "length": 2,
+       *     "colors": [
+       *       "Brown"
+       *     ]
+       *   },
+       *   {
+       *     "name": "Spino Tail",
+       *     "url": "https://nookipedia.com/wiki/Spinosaurus",
+       *     "image_url": "https://dodo.ac/np/images/4/40/Spino_Tail_NH_Icon.png",
+       *     "interactable": true,
+       *     "sell": 2500,
+       *     "hha_base": 87,
+       *     "width": 2,
+       *     "length": 2,
+       *     "colors": [
+       *       "Brown"
+       *     ]
+       *   },
+       *   {
+       *     "name": "Spino Torso",
+       *     "url": "https://nookipedia.com/wiki/Spinosaurus",
+       *     "image_url": "https://dodo.ac/np/images/9/92/Spino_Torso_NH_Icon.png",
+       *     "interactable": true,
+       *     "sell": 3000,
+       *     "hha_base": 87,
+       *     "width": 2,
+       *     "length": 2,
+       *     "colors": [
+       *       "Brown"
+       *     ]
+       *   }
+       * ]
+       */
+      fossils?: {
+        /** @example Spino Skull */
+        name?: string;
+        url?: string;
+        image_url?: string;
+        fossil_group?: string;
+        interactable?: boolean;
+        sell?: number;
+        hha_base?: number;
+        width?: number;
+        length?: number;
+        colors?: (
+          | 'Aqua'
+          | 'Beige'
+          | 'Black'
+          | 'Blue'
+          | 'Brown'
+          | 'Colorful'
+          | 'Gray'
+          | 'Green'
+          | 'Orange'
+          | 'Pink'
+          | 'Purple'
+          | 'Red'
+          | 'White'
+          | 'Yellow'
+        )[];
+      }[];
+    };
+    NHFossilGroupWithIndividualFossilsNoMatched: {
+      /**
+       * @description The name of the fossil group.
+       * @example Spinosaurus
+       */
+      name?: string;
+      /**
+       * @description Link to the respective Nookipedia article.
+       * @example https://nookipedia.com/wiki/Spinosaurus
+       */
+      url?: string;
+      /**
+       * @description The room where the fossil group can be found in the museum's fossil section.
+       * @example 2
+       */
+      room?: number;
+      /**
+       * @description A description of the fossil group.
+       * @example Ahem. Yes. The Spinosaurus was a very large, carnivorous dinosaur, roughly the size of a T. Rex. Unlike its more famous cousin, however, Spinosaurus seems to have spent a great deal of time in water. Similar to modern crocodiles, this creature lived on a diet of fish AND land-dwelling animals. Personally, I am simply relieved that it did not seek FLYING prey.
+       */
+      description?: string;
+      /**
+       * @description An array of objects, each object representing a fossil that belongs to the given group.
+       * @example [
+       *   {
+       *     "name": "Spino Skull",
+       *     "url": "https://nookipedia.com/wiki/Spinosaurus",
+       *     "image_url": "https://dodo.ac/np/images/7/7b/Spino_Skull_NH_Icon.png",
+       *     "interactable": true,
+       *     "sell": 4000,
+       *     "hha_base": 87,
+       *     "width": 2,
+       *     "length": 2,
+       *     "colors": [
+       *       "Brown"
+       *     ]
+       *   },
+       *   {
+       *     "name": "Spino Tail",
+       *     "url": "https://nookipedia.com/wiki/Spinosaurus",
+       *     "image_url": "https://dodo.ac/np/images/4/40/Spino_Tail_NH_Icon.png",
+       *     "interactable": true,
+       *     "sell": 2500,
+       *     "hha_base": 87,
+       *     "width": 2,
+       *     "length": 2,
+       *     "colors": [
+       *       "Brown"
+       *     ]
+       *   },
+       *   {
+       *     "name": "Spino Torso",
+       *     "url": "https://nookipedia.com/wiki/Spinosaurus",
+       *     "image_url": "https://dodo.ac/np/images/9/92/Spino_Torso_NH_Icon.png",
+       *     "interactable": true,
+       *     "sell": 3000,
+       *     "hha_base": 87,
+       *     "width": 2,
+       *     "length": 2,
+       *     "colors": [
+       *       "Brown"
+       *     ]
+       *   }
+       * ]
+       */
+      fossils?: {
+        /** @example Spino Skull */
+        name?: string;
+        url?: string;
+        image_url?: string;
+        fossil_group?: string;
+        interactable?: boolean;
+        sell?: number;
+        hha_base?: number;
+        width?: number;
+        length?: number;
+        colors?: (
+          | 'Aqua'
+          | 'Beige'
+          | 'Black'
+          | 'Blue'
+          | 'Brown'
+          | 'Colorful'
+          | 'Gray'
+          | 'Green'
+          | 'Orange'
+          | 'Pink'
+          | 'Purple'
+          | 'Red'
+          | 'White'
+          | 'Yellow'
+        )[];
       }[];
     };
   };

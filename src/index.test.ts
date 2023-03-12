@@ -3,7 +3,8 @@ import {
   NookipediaApi,
   NookipediaError,
   NookipediaError401,
-  NOOKIPEDIA_API_VERSION
+  NOOKIPEDIA_API_VERSION,
+  OmitOptions
 } from './index';
 import { readFileSync } from 'fs';
 import { parse } from 'yaml';
@@ -74,21 +75,19 @@ describe('NookipediaApi', () => {
   });
   it('properly builds search params', async () => {
     const nookipedia = new NookipediaApi('');
-    const query = {
-      month: 'jan',
-      excludedetails: 'true',
-      thumbsize: 20
+    const options: OmitOptions<'/villagers'> = {
+      query: {
+        species: 'alligator',
+        game: ['NH', 'AC', 'HHD'],
+        thumbsize: 200
+      }
     };
-    await nookipedia.getAllBugs({
-      query
-    });
+    await nookipedia.getAllVillagers(options);
     const url = new URL(mockFetch.mock.lastCall?.[0]);
-    expect(url.searchParams.get('month')).toEqual(query.month);
-    expect(url.searchParams.get('excludedetails')).toEqual(
-      query.excludedetails
-    );
+    expect(url.searchParams.get('species')).toEqual(options.query?.species);
+    expect(url.searchParams.getAll('game')).toEqual(options.query?.game);
     expect(url.searchParams.get('thumbsize')).toEqual(
-      query.thumbsize.toString()
+      options.query?.thumbsize?.toString()
     );
   });
   it('url is valid with or without trailing slash', async () => {

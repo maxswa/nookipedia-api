@@ -360,6 +360,11 @@ export interface components {
        */
       catchphrase2?: string;
       /**
+       * @description An alternative catchphrase that the player may say after catching the critter under certain conditions (such as catching a squid when it is raining). Note that the vast majority of critters do not have a third catchphrase.
+       * @example
+       */
+      catchphrase3?: string;
+      /**
        * @description The time(s) the fish is available. If all day, string will be `"All day"`.
        * @example 4 PM – 9 AM
        */

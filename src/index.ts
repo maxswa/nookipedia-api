@@ -492,7 +492,7 @@ export class NookipediaApi {
   }
 
   /**
-   * All New Horizons photo and poster namess
+   * All New Horizons photo and poster names
    * @description Get a list of all character photos+posters and their details in *Animal Crossing: New Horizons*.
    */
   getAllPhotoAndPosterNames(options?: OmitOptions<'/nh/photos'>) {

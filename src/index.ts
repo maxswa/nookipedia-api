@@ -1,6 +1,6 @@
 import type { paths, components } from './types';
 
-export const NOOKIPEDIA_API_VERSION = '1.4.0'; // This must match the version number in nookipedia-api.yaml
+export const NOOKIPEDIA_API_VERSION = '1.5.0'; // This must match the version number in nookipedia-api.yaml
 
 export type GetEndpoint<Path extends keyof paths> = paths[Path]['get'];
 export type Params<Path extends keyof paths> = GetEndpoint<Path>['parameters'];
@@ -359,6 +359,75 @@ export class NookipediaApi {
     return this.request({
       path: '/nh/fish/{fish}',
       replacePath: { fish },
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons fossil groups with individual fossils
+   * @description Get a list of all the fossil groups with their respective individual fossils in *Animal Crossing: New Horizons*.
+   */
+  getAllFossilGroupsWithFossils(options?: Options<'/nh/fossils/all'>) {
+    return this.request({ path: '/nh/fossils/all', ...options });
+  }
+
+  /**
+   * Single New Horizons fossil group with individual fossils
+   * @description Retrieve information about a specific fossil group with their respective individual fossils in *Animal Crossing: New Horizons*.
+   */
+  getFossilGroupWithFossils(
+    fossil: string,
+    options?: Options<'/nh/fossils/all/{fossil}'>
+  ) {
+    return this.request({
+      path: '/nh/fossils/all/{fossil}',
+      replacePath: { fossil },
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons fossil groups
+   * @description Get a list of all the fossil groups in *Animal Crossing: New Horizons*.
+   */
+  getAllFossilGroups(options?: Options<'/nh/fossils/groups'>) {
+    return this.request({ path: '/nh/fossils/groups', ...options });
+  }
+
+  /**
+   * Single New Horizons fossil group
+   * @description Retrieve information about a specific fossil group in *Animal Crossing: New Horizons*.
+   */
+  getFossilGroup(
+    fossil_group: string,
+    options?: Options<'/nh/fossils/groups/{fossil_group}'>
+  ) {
+    return this.request({
+      path: '/nh/fossils/groups/{fossil_group}',
+      replacePath: { fossil_group },
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons fossils
+   * @description Get a list of all the individual fossils in *Animal Crossing: New Horizons*.
+   */
+  getAllFossils(options?: Options<'/nh/fossils/individuals'>) {
+    return this.request({ path: '/nh/fossils/individuals', ...options });
+  }
+
+  /**
+   * Single New Horizons fossil
+   * @description Retrieve information about a specific individual fossil in *Animal Crossing: New Horizons*.
+   */
+  getFossil(
+    fossil: string,
+    options?: Options<'/nh/fossils/individuals/{fossil}'>
+  ) {
+    return this.request({
+      path: '/nh/fossils/individuals/{fossil}',
+      replacePath: { fossil },
       ...options
     });
   }

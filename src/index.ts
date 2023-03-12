@@ -1,6 +1,6 @@
 import type { paths, components } from './types';
 
-export const NOOKIPEDIA_API_VERSION = '1.1.0'; // This must match the version number in nookipedia-api.yaml
+export const NOOKIPEDIA_API_VERSION = '1.2.0'; // This must match the version number in nookipedia-api.yaml
 
 export type GetEndpoint<Path extends keyof paths> = paths[Path]['get'];
 export type Params<Path extends keyof paths> = GetEndpoint<Path>['parameters'];
@@ -132,6 +132,44 @@ export class NookipediaApi {
           fetchResponse.status
         );
     }
+  }
+
+  /**
+   * All New Horizons artwork
+   * @description Get a list of all artwork and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+   */
+  getAllArtwork(options?: OmitOptions<'/nh/art'>) {
+    return this.request({
+      path: '/nh/art',
+      ...options
+    });
+  }
+
+  /**
+   * All New Horizons artwork names
+   * @description Get a list of all artwork and their details in *Animal Crossing: New Horizons*. Note that while cached, this endpoint will be very responsive; however, hitting the endpoint in between cache refreshes can result in a response time of 5 to 15 seconds.
+   */
+  getAllArtworkNames(options?: OmitOptions<'/nh/art'>) {
+    return this.request<'/nh/art', string[]>({
+      path: '/nh/art',
+      ...options,
+      query: {
+        ...options?.query,
+        excludedetails: 'true'
+      }
+    });
+  }
+
+  /**
+   * Single New Horizons artwork
+   * @description Retrieve information about a specific artwork in *Animal Crossing: New Horizons*.
+   */
+  getArtwork(artwork: string, options?: Options<'/nh/art/{artwork}'>) {
+    return this.request({
+      path: '/nh/art/{artwork}',
+      replacePath: { artwork },
+      ...options
+    });
   }
 
   /**

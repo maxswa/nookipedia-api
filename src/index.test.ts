@@ -30,7 +30,7 @@ describe('NookipediaApi', () => {
       'utf8'
     );
     const yaml = parse(file);
-    expect(yaml.info.version).toEqual(NOOKIPEDIA_API_VERSION);
+    expect(NOOKIPEDIA_API_VERSION).toEqual(yaml.info.version);
   });
   it('adds API key header', async () => {
     const apiKey = 'apiKey';

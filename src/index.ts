@@ -5,15 +5,26 @@ export const NOOKIPEDIA_API_VERSION = '1.0.0'; // This must match the version nu
 export type GetEndpoint<Path extends keyof paths> = paths[Path]['get'];
 export type Params<Path extends keyof paths> = GetEndpoint<Path>['parameters'];
 export type Query<Path extends keyof paths> = Params<Path>['query'];
+export type JsonResponse<Path extends keyof paths> =
+  GetEndpoint<Path>['responses'][200]['content']['application/json'];
+export type OmitOptions<Path extends keyof paths> = {
+  query?: Omit<Query<Path>, 'month' | 'excludedetails'>;
+  fetchOptions?: RequestInit;
+};
 export type Options<Path extends keyof paths> = {
   query?: Query<Path>;
   fetchOptions?: RequestInit;
 };
-
-export interface ErrorBody {
+export type MonthResponse<Items> = {
+  month: string;
+  north: Items;
+  south: Items;
+};
+export type ErrorBody = {
   title?: string;
   details?: string;
-}
+};
+
 export class NookipediaError extends Error {
   constructor(public body: ErrorBody, public code?: number) {
     super(body.title);
@@ -50,7 +61,10 @@ export class NookipediaApi {
     public apiUrl = 'https://api.nookipedia.com/'
   ) {}
 
-  async request<Path extends keyof paths>(
+  async request<
+    Path extends keyof paths,
+    Response extends unknown = JsonResponse<Path>
+  >(
     args: (Params<Path> extends { path: unknown }
       ? {
           path: Path;
@@ -61,9 +75,7 @@ export class NookipediaApi {
           replacePath?: never;
         }) &
       Options<Path>
-  ): Promise<
-    GetEndpoint<Path>['responses'][200]['content']['application/json']
-  > {
+  ): Promise<Response> {
     const { path, query, fetchOptions, replacePath } = args;
     let finalPath: string = path;
     Object.entries(replacePath ?? ({} as Record<string, string>)).forEach(
@@ -114,8 +126,45 @@ export class NookipediaApi {
     }
   }
 
-  getAllBugs(options?: Options<'/nh/bugs'>) {
-    return this.request({ path: '/nh/bugs', ...options });
+  getAllBugs(options?: OmitOptions<'/nh/bugs'>) {
+    return this.request({
+      path: '/nh/bugs',
+      ...options
+    });
+  }
+
+  getAllBugsByMonth(month: string, options?: OmitOptions<'/nh/bugs'>) {
+    return this.request<'/nh/bugs', MonthResponse<JsonResponse<'/nh/bugs'>>>({
+      path: '/nh/bugs',
+      ...options,
+      query: {
+        ...options?.query,
+        month
+      }
+    });
+  }
+
+  getAllBugNames(options?: OmitOptions<'/nh/bugs'>) {
+    return this.request<'/nh/bugs', string[]>({
+      path: '/nh/bugs',
+      ...options,
+      query: {
+        ...options?.query,
+        excludedetails: 'true'
+      }
+    });
+  }
+
+  getAllBugNamesByMonth(month: string, options?: OmitOptions<'/nh/bugs'>) {
+    return this.request<'/nh/bugs', MonthResponse<string[]>>({
+      path: '/nh/bugs',
+      ...options,
+      query: {
+        ...options?.query,
+        excludedetails: 'true',
+        month
+      }
+    });
   }
 
   getBug(bug: string, options?: Options<'/nh/bugs/{bug}'>) {
@@ -126,8 +175,45 @@ export class NookipediaApi {
     });
   }
 
-  getAllFish(options?: Options<'/nh/fish'>) {
-    return this.request({ path: '/nh/fish', ...options });
+  getAllFish(options?: OmitOptions<'/nh/fish'>) {
+    return this.request({
+      path: '/nh/fish',
+      ...options
+    });
+  }
+
+  getAllFishByMonth(month: string, options?: OmitOptions<'/nh/fish'>) {
+    return this.request<'/nh/fish', MonthResponse<JsonResponse<'/nh/fish'>>>({
+      path: '/nh/fish',
+      ...options,
+      query: {
+        ...options?.query,
+        month
+      }
+    });
+  }
+
+  getAllFishNames(options?: OmitOptions<'/nh/fish'>) {
+    return this.request<'/nh/fish', string[]>({
+      path: '/nh/fish',
+      ...options,
+      query: {
+        ...options?.query,
+        excludedetails: 'true'
+      }
+    });
+  }
+
+  getAllFishNamesByMonth(month: string, options?: OmitOptions<'/nh/fish'>) {
+    return this.request<'/nh/fish', MonthResponse<string[]>>({
+      path: '/nh/fish',
+      ...options,
+      query: {
+        ...options?.query,
+        excludedetails: 'true',
+        month
+      }
+    });
   }
 
   getFish(fish: string, options?: Options<'/nh/fish/{fish}'>) {
@@ -138,8 +224,48 @@ export class NookipediaApi {
     });
   }
 
-  getAllSeaCreatures(options?: Options<'/nh/sea'>) {
-    return this.request({ path: '/nh/sea', ...options });
+  getAllSeaCreatures(options?: OmitOptions<'/nh/sea'>) {
+    return this.request({
+      path: '/nh/sea',
+      ...options
+    });
+  }
+
+  getAllSeaCreaturesByMonth(month: string, options?: OmitOptions<'/nh/sea'>) {
+    return this.request<'/nh/sea', MonthResponse<JsonResponse<'/nh/sea'>>>({
+      path: '/nh/sea',
+      ...options,
+      query: {
+        ...options?.query,
+        month
+      }
+    });
+  }
+
+  getAllSeaCreatureNames(options?: OmitOptions<'/nh/sea'>) {
+    return this.request<'/nh/sea', string[]>({
+      path: '/nh/sea',
+      ...options,
+      query: {
+        ...options?.query,
+        excludedetails: 'true'
+      }
+    });
+  }
+
+  getAllSeaCreatureNamesByMonth(
+    month: string,
+    options?: OmitOptions<'/nh/sea'>
+  ) {
+    return this.request<'/nh/sea', MonthResponse<string[]>>({
+      path: '/nh/sea',
+      ...options,
+      query: {
+        ...options?.query,
+        excludedetails: 'true',
+        month
+      }
+    });
   }
 
   getSeaCreature(

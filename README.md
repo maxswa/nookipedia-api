@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/v/nookipedia-api.svg?style=flat-square)](https://www.npmjs.com/package/nookipedia-api)
 [![downloads](https://img.shields.io/npm/dm/nookipedia-api.svg?style=flat-square)](https://npm-stat.com/charts.html?package=nookipedia-api)
 [![types](https://img.shields.io/npm/types/nookipedia-api.svg?style=flat-square)](https://github.com/maxswa/nookipedia-api/blob/master/src/types.ts)
-[![build](https://img.shields.io/github/workflow/status/maxswa/nookipedia-api/CI?style=flat-square)](https://github.com/maxswa/nookipedia-api/actions/workflows/main.yml?query=branch%3Amain)
+[![build](https://img.shields.io/github/actions/workflow/status/maxswa/nookipedia-api/main.yml?branch=main&style=flat-square)](https://github.com/maxswa/nookipedia-api/actions/workflows/main.yml?query=branch%3Amain)
 
 Simple JS wrapper for the [Nookipedia API](https://api.nookipedia.com/)
 

@@ -1577,7 +1577,7 @@ export interface components {
        */
       id?: string;
       /**
-       * @description Image of the villager from the latest game the villager appeared in. dodo.ac is Nookipedia's CDN server.
+       * @description Image of the villager from the latest game the villager appeared in.
        * @example https://dodo.ac/np/images/9/94/Ribbot_NH.png
        */
       image_url?: string;
@@ -1862,12 +1862,12 @@ export interface components {
        */
       number?: number;
       /**
-       * @description Image of the fish. dodo.ac is Nookipedia's CDN server.
+       * @description Image of the fish.
        * @example https://dodo.ac/np/images/d/db/Cherry_Salmon_NH_Icon.png
        */
       image_url?: string;
       /**
-       * @description Render of the fish. dodo.ac is Nookipedia's CDN server.
+       * @description Render of the fish.
        * @example https://dodo.ac/np/images/c/c0/Cherry_Salmon_NH.png
        */
       render_url?: string;
@@ -2086,12 +2086,12 @@ export interface components {
        */
       number?: number;
       /**
-       * @description Image of the bug. dodo.ac is Nookipedia's CDN server.
+       * @description Image of the bug.
        * @example https://dodo.ac/np/images/3/37/Grasshopper_NH_Icon.png
        */
       image_url?: string;
       /**
-       * @description Render of the bug. dodo.ac is Nookipedia's CDN server.
+       * @description Render of the bug.
        * @example https://dodo.ac/np/images/1/1d/Grasshopper_NH.png
        */
       render_url?: string;
@@ -2279,12 +2279,12 @@ export interface components {
        */
       number?: number;
       /**
-       * @description Image of the sea creature. dodo.ac is Nookipedia's CDN server.
+       * @description Image of the sea creature.
        * @example https://dodo.ac/np/images/5/58/Octopus_NH_Icon.png
        */
       image_url?: string;
       /**
-       * @description Render of the sea creature. dodo.ac is Nookipedia's CDN server.
+       * @description Render of the sea creature.
        * @example https://dodo.ac/np/images/2/27/Octopus_NH.png
        */
       render_url?: string;
@@ -2516,32 +2516,28 @@ export interface components {
        */
       url?: string;
       /**
-       * @description Image of the real artwork. dodo.ac is Nookipedia's CDN server.
-       * @example https://dodo.ac/np/images/e/e8/Academic_Painting_NH_Icon.png
-       */
-      image_url?: string;
-      /**
        * @description Whether the artwork has a fake or not.
        * @example true
        */
       has_fake?: boolean;
-      /**
-       * @description Image of the fake artwork, if it exists.
-       * @example https://dodo.ac/np/images/1/13/Academic_Painting_%28Forgery%29_NH_Icon.png
-       */
-      fake_image_url?: string;
       /**
        * @description The name of the real-life analog to the artwork.
        * @example Vitruvian Man
        */
       art_name?: string;
       /**
+       * @description The type of artwork (either a painting or statue).
+       * @example Painting
+       * @enum {string}
+       */
+      art_type?: 'Painting' | 'Statue';
+      /**
        * @description The author of the real-life analog to the artwork.
        * @example Leonardo da Vinci
        */
       author?: string;
       /**
-       * @description The year that the real-life analog was made.
+       * @description The year that the real-life analog was made. May be an exact year, an estimate ("circa"), or a range.
        * @example circa 1487
        */
       year?: string;
@@ -2550,11 +2546,6 @@ export interface components {
        * @example Pen and ink on paper
        */
       art_style?: string;
-      /**
-       * @description The description of the artwork.
-       * @example This drawing is based on the &quot;ideal&quot; human-body ratio, as stated in &quot;De architectura.&quot; &quot;De architectura&quot; was a treatise by Vitruvius, an architect from the early 1st century BCE.
-       */
-      description?: string;
       /**
        * @description The number of Bells the artwork may be purchased for.
        * @example 4980
@@ -2571,11 +2562,6 @@ export interface components {
        */
       availability?: string;
       /**
-       * @description The description of the difference between real and fake, if there is one
-       * @example If there is a coffee stain in the top right corner, it is fake. If there is no stain, it is genuine. The forgery has a key taped to the back of the canvas.
-       */
-      authenticity?: string;
-      /**
        * Format: float
        * @description The width of the artwork.
        * @example 1
@@ -2587,6 +2573,42 @@ export interface components {
        * @example 1
        */
       length?: number;
+      /** @description Information about the genuine version of the artwork. */
+      real_info?: {
+        /**
+         * @description Image of the real artwork.
+         * @example https://dodo.ac/np/images/e/e8/Academic_Painting_NH_Icon.png
+         */
+        image_url?: string;
+        /**
+         * @description The texture of the artwork. Note that statues will not have a texture (value will be empty string).
+         * @example https://dodo.ac/np/images/f/f6/Academic_Painting_NH_Texture.png
+         */
+        texture_url?: string;
+        /**
+         * @description The description of the artwork.
+         * @example This drawing is based on the "ideal" human-body ratio, as stated in "De architectura." "De architectura" was a treatise by Vitruvius, an architect from the early 1st century BCE.
+         */
+        description?: string;
+      };
+      /** @description Information about the fake version of the artwork. If there is no fake, `fake_info`'s value will be `null`. */
+      fake_info?: {
+        /**
+         * @description Image of the fake artwork.
+         * @example https://dodo.ac/np/images/4/46/Academic_Painting_%28Fake%29_NH_Icon.png
+         */
+        image_url?: string;
+        /**
+         * @description The texture of the artwork. Note that statues will not have a texture (value will be empty string).
+         * @example https://dodo.ac/np/images/0/03/Academic_Painting_%28Fake%29_NH_Texture.png
+         */
+        texture_url?: string;
+        /**
+         * @description A description of how to identify the fake artwork.
+         * @example In the forgery, there is a coffee stain in the top right corner. The forgery also has a key taped to the back of the canvas. If there is no stain and key, it is genuine.
+         */
+        description?: string;
+      };
     };
     NHFurniture: {
       /**
@@ -3286,7 +3308,7 @@ export interface components {
        */
       url?: string;
       /**
-       * @description Image of the interior. dodo.ac is Nookipedia's CDN server.
+       * @description Image of the interior.
        * @example https://dodo.ac/np/images/2/2d/Abstract_Wall_NH_Icon.png
        */
       image_url?: string;
@@ -3423,7 +3445,7 @@ export interface components {
        */
       url?: string;
       /**
-       * @description Image of the interior. dodo.ac is Nookipedia's CDN server.
+       * @description Image of the interior.
        * @example https://dodo.ac/np/images/9/9f/Acorn_NH_Icon.png
        */
       image_url?: string;
@@ -3557,7 +3579,7 @@ export interface components {
        */
       url?: string;
       /**
-       * @description Image of the item the recipe crafts. dodo.ac is Nookipedia's CDN server.
+       * @description Image of the item the recipe crafts.
        * @example https://dodo.ac/np/images/a/ac/Flimsy_Axe_NH_DIY_Icon.png
        */
       image_url?: string;
@@ -3636,7 +3658,7 @@ export interface components {
        */
       url?: string;
       /**
-       * @description Image of the fossil's icon. dodo.ac is Nookipedia's CDN server.
+       * @description Image of the fossil's icon.
        * @example https://dodo.ac/np/images/7/7b/Spino_Skull_NH_Icon.png
        */
       image_url?: string;

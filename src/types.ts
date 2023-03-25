@@ -19,6 +19,7 @@ export interface paths {
             | 'alligator'
             | 'anteater'
             | 'bear'
+            | 'bear cub'
             | 'bird'
             | 'bull'
             | 'cat'
@@ -47,20 +48,22 @@ export interface paths {
             | 'pig'
             | 'rabbit'
             | 'rhino'
+            | 'rhinoceros'
             | 'sheep'
             | 'squirrel'
             | 'tiger'
             | 'wolf';
           /** @description Retrieve villagers with a certain personality. For 'sisterly', note that the community often also calls it 'uchi' or 'big sister'. */
           personality?:
-            | 'lazy'
-            | 'jock'
+            | 'big sister'
             | 'cranky'
-            | 'smug'
+            | 'jock'
+            | 'lazy'
             | 'normal'
             | 'peppy'
-            | 'snooty'
-            | 'sisterly';
+            | 'sisterly'
+            | 'smug'
+            | 'snooty';
           /** @description Retrieve villagers that appear in all listed games. For example, if you want only villagers that appear in both *New Horizons* and *Pocket Camp*, you would send in `?game=nh&game=pc`. */
           game?: (
             | 'DNM'
@@ -1587,10 +1590,10 @@ export interface components {
         | 'Alligator'
         | 'Anteater'
         | 'Bear'
+        | 'Bear cub'
         | 'Bird'
         | 'Bull'
         | 'Cat'
-        | 'Cub'
         | 'Chicken'
         | 'Cow'
         | 'Deer'
@@ -1614,7 +1617,7 @@ export interface components {
         | 'Penguin'
         | 'Pig'
         | 'Rabbit'
-        | 'Rhino'
+        | 'Rhinoceros'
         | 'Sheep'
         | 'Squirrel'
         | 'Tiger'
@@ -1625,12 +1628,12 @@ export interface components {
        * @enum {string}
        */
       personality?:
+        | 'Big sister'
         | 'Cranky'
         | 'Jock'
         | 'Lazy'
         | 'Normal'
         | 'Peppy'
-        | 'Sisterly'
         | 'Smug'
         | 'Snooty';
       /**

@@ -1843,6 +1843,11 @@ export interface components {
          * @example
          */
         house_music_note?: string;
+        /**
+         * @description The name of the umbrella used by the villager.
+         * @example bat umbrella
+         */
+        umbrella?: string;
       };
     };
     NHFish: {
